@@ -2,7 +2,7 @@
 #define TILE_H
 
 #include <SFML/Graphics.hpp>
-#include "TileDescriptor.h"
+#include "TileDescriptor.hpp"
 #include "TextureHandler.hpp"
 #define TILE_SIZE 48
 class Tile // we may inherit other more specifics tiles from this class
@@ -24,12 +24,13 @@ private:
     // even with 3 layers on the tile, the last layer (front) trigger will take priority, simplification
     std::string storyTrigger = "";
     std::string trigger = "";
-    std::string colisionTrigger = "";
+    std::string awakeTrigger = "";
 
     bool isWalkable = true; // will be an AND between all layers walkable state
 
     void sendTrigger(); // sends trigger to levelController/GameControler for story events or key interactions
     void sendStoryTrigger();
+    void sendAwakeTrigger();
 
 public:
     Tile(sf::Vector2<int> position, TileDescriptor back, TileDescriptor middle = TileDescriptor(), TileDescriptor front = TileDescriptor());

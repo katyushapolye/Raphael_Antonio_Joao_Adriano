@@ -1,3 +1,5 @@
+#ifndef TILEDESCRIPTOR_H
+#define TILEDESCRIPTOR_H
 #include <unordered_map>
 #include <string>
 #include <SFML/Graphics.hpp>
@@ -9,7 +11,7 @@ struct TileDescriptor
         isWalkable = true;
     };
 
-    TileDescriptor(TextureHandler::TextureAtlas iAtlas, sf::IntRect iRect, bool iWalkable, bool iTwoTileTall, std::string iTrigger = "", std::string iStoryTrigger = "")
+    TileDescriptor(TextureHandler::TextureAtlas iAtlas, sf::IntRect iRect, bool iWalkable, bool iTwoTileTall, std::string iTrigger = "", std::string iStoryTrigger = "", std::string iAwakeTrigger = "")
     {
         atlas = iAtlas;
         rect = iRect;
@@ -17,6 +19,7 @@ struct TileDescriptor
         isTwoTileTall = iTwoTileTall;
         trigger = iTrigger;
         storyTrigger = iStoryTrigger;
+        awakeTrigger = iAwakeTrigger;
     };
     TextureHandler::TextureAtlas atlas;
     sf::IntRect rect;
@@ -24,4 +27,6 @@ struct TileDescriptor
     bool isTwoTileTall;
     std::string trigger = "";
     std::string storyTrigger = "";
+    std::string awakeTrigger = "";
 };
+#endif

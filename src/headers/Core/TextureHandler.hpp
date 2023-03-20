@@ -1,5 +1,5 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#ifndef TEXTUREHANDLER_H
+#define TEXTUREHANDLER_H
 
 #include <SFML/Graphics.hpp>
 #include <utility>

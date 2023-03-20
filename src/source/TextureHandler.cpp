@@ -1,4 +1,4 @@
-#include "../headers/TextureHandler.hpp"
+#include "../headers/Core/TextureHandler.hpp"
 
 void TextureHandler::loadTexture(TextureAtlas atlas)
 {
