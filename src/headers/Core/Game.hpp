@@ -22,6 +22,9 @@ private:
     static inline std::vector<std::vector<Tile>> levelMap;
     static inline Level *currentLevel;
 
+    static inline int levelHeight = 0;
+    static inline int levelWidth = 0;
+
     Player *player;
     // enemies array
 
@@ -55,6 +58,8 @@ public:
     static sf::View &getCamera();
     static sf::Clock &getGameClock();
     static std::vector<std::vector<Tile>> &getLevelMap();
+    static int getLevelHeight();
+    static int getLevelWidth();
 };
 
 #endif

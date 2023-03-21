@@ -15,14 +15,12 @@ Player::Player()
 
 void Player::update()
 {
-    // debug                                                                     //small offset from center
-    if (Game::getLevelMap()[round(this->position.y / 48)][1 + round((this->position.x + -25) / 48)].walkable() == false)
-    {
-        movingRight = false;
-    }
-    std::cout << "X: " << round(this->position.x / 48) << std::endl;
-    std::cout << "Y: " << round(this->position.y / 48) << std::endl;
     // debug
+    computeInput();
+
+    this->checkLevelBound();
+    this->checkLevelColision();
+
     this->move();
 
     this->position = sf::Vector2f(round(this->position.x), round(this->position.y));
@@ -31,19 +29,6 @@ void Player::update()
 
     worldX = int(this->position.x) / TILE_SIZE;
     worldY = int(this->position.y) / TILE_SIZE;
-    /*
-
-    std::cout << "wX: " << worldX << "wY: " << worldY << std::endl;
-    std::cout << "X: " << this->position.x << "Y: " << this->position.y << std::endl;
-    std::cout << "mX: " << (int)this->position.x % 48 << "mY: " << (int)this->position.y % 48 << std::endl;
-
-    std::cout << "Dir" << facing << std::endl;
-
-    std::cout << "Moving Up: " << movingUp << std::endl;
-    std::cout << "Moving Down: " << movingDown << std::endl;
-    std::cout << "Moving Left: " << movingLeft << std::endl;
-    std::cout << "Moving Right: " << movingRight << std::endl;
-    */
 }
 
 sf::Sprite &Player::getSprite()
@@ -56,58 +41,54 @@ void Player::receiveInput(sf::Event e)
     if (e.type == sf::Event::KeyPressed)
     {
         // 4 directional movement for ease of tile management and interaction
+
         if (e.key.code == sf::Keyboard::Up)
         {
 
             // movingDown = false;
             // movingLeft = false;
             // movingRight = false;
-            movingUp = true;
-            facing = North;
+            upPressed = true;
         }
         if (e.key.code == sf::Keyboard::Down)
         {
             // movingUp = false;
             // movingLeft = false;
             // movingRight = false;
-            movingDown = true;
-            facing = South;
+            downPressed = true;
         }
         if (e.key.code == sf::Keyboard::Left)
         {
             // movingUp = false;
             // movingDown = false;
-            movingLeft = true;
+            leftPressed = true;
             // movingRight = false;
-
-            facing = West;
         }
         if (e.key.code == sf::Keyboard::Right)
         {
             // movingUp = false;
             // movingDown = false;
             // movingLeft = false;
-            movingRight = true;
-            facing = East;
+            rightPressed = true;
         }
     }
     if (e.type == sf::Event::KeyReleased)
     {
         if (e.key.code == sf::Keyboard::Up)
         {
-            movingUp = false;
+            upPressed = false;
         }
         if (e.key.code == sf::Keyboard::Down)
         {
-            movingDown = false;
+            downPressed = false;
         }
         if (e.key.code == sf::Keyboard::Left)
         {
-            movingLeft = false;
+            leftPressed = false;
         }
         if (e.key.code == sf::Keyboard::Right)
         {
-            movingRight = false;
+            rightPressed = false;
         }
     }
 }
@@ -115,25 +96,142 @@ void Player::receiveInput(sf::Event e)
 void Player::move()
 {
     // Illusion of tile based movement
+    // make movement dependent on both the keypressed AND the hability to move (movingDir)
 
-    if (movingUp)
+    if ((int)this->position.x % TILE_SIZE != 0 && this->facing == East)
     {
-        this->position.y -= velocity * Game::getGameClock().getElapsedTime().asSeconds();
-        this->facing = North;
-    }
-    if (movingDown)
-    {
-        this->position.y += velocity * Game::getGameClock().getElapsedTime().asSeconds();
-        this->facing = South;
-    }
-    if (movingLeft)
-    {
-        this->position.x -= velocity * Game::getGameClock().getElapsedTime().asSeconds();
-        this->facing = West;
-    }
-    if (movingRight)
-    {
-        this->position.x += velocity * Game::getGameClock().getElapsedTime().asSeconds();
+        // std::cout << "Triggering Corrections" << std::endl;
+        this->position.x++;
         this->facing = East;
+        return;
     }
+
+    if ((int)this->position.x % TILE_SIZE != 0 && this->facing == West)
+    {
+        // std::cout << "Triggering Corrections" << std::endl;
+        this->position.x--;
+        this->facing = West;
+        return;
+    }
+
+    if ((int)this->position.y % TILE_SIZE != 0 && this->facing == North)
+    {
+        this->position.y--;
+        this->facing = North;
+        return;
+    }
+    if ((int)this->position.y % TILE_SIZE != 0 && this->facing == South)
+    {
+        this->position.y++;
+        this->facing = South;
+        return;
+    }
+
+    if (this->movingUp == true)
+    {
+        this->position.y--;
+        this->facing = North;
+        return;
+    }
+    if (this->movingDown == true)
+    {
+        this->position.y++;
+        this->facing = South;
+        return;
+    }
+    if (this->movingLeft == true)
+    {
+        this->position.x--;
+        this->facing = West;
+        return;
+    }
+    if (this->movingRight == true)
+    {
+        this->position.x++;
+        this->facing = East;
+        return;
+    }
+
+    // correction
+}
+
+sf::Vector2f Player::getPosition()
+{
+    return this->position;
+}
+
+void Player::checkLevelBound()
+{
+    // x
+    if (this->position.x <= 0)
+    {
+        this->movingLeft = false;
+        this->position.x = 0;
+    }
+    else if (this->position.x >= (Game::getLevelWidth() - 1) * TILE_SIZE)
+    {
+        this->movingRight = false;
+        this->position.x = (Game::getLevelWidth() - 1) * TILE_SIZE;
+    }
+
+    // y
+    if (this->position.y <= 0)
+    {
+        this->movingUp = false;
+        this->position.y = 0;
+    }
+
+    else if (this->position.y >= (Game::getLevelHeight() - 1) * TILE_SIZE)
+    {
+        this->movingDown = false;
+        this->position.y = (Game::getLevelHeight() - 1) * TILE_SIZE;
+    }
+}
+sf::Vector2i Player::getWorldPosition()
+{
+    return sf::Vector2i(this->worldX, this->worldY);
+}
+
+void Player::checkLevelColision()
+{
+    // x axis
+    if (Game::getLevelMap()[round(this->position.y / TILE_SIZE)][1 + round((this->position.x) / TILE_SIZE)].walkable() == false)
+    {
+        movingRight = false;
+    }
+    if (Game::getLevelMap()[round(this->position.y / TILE_SIZE)][(round((this->position.x) / TILE_SIZE) - 1)].walkable() == false)
+    {
+        movingLeft = false;
+    }
+
+    // special check for out of bounds on map
+    if ((round((this->position.y) / TILE_SIZE) - 1) < 0)
+    {
+        movingUp = false;
+        return;
+    }
+    if (1 + round((this->position.y) / TILE_SIZE) >= Game::getLevelHeight())
+    {
+        movingDown = false;
+        return;
+    }
+
+    if (Game::getLevelMap()[1 + round((this->position.y) / TILE_SIZE)][round(this->position.x / TILE_SIZE)].walkable() == false)
+    {
+        movingDown = false;
+    }
+    if (Game::getLevelMap()[(round((this->position.y) / TILE_SIZE) - 1)][round(this->position.x / TILE_SIZE)].walkable() == false)
+    {
+        movingUp = false;
+    }
+
+    // y axis
+}
+
+void Player::computeInput()
+{
+    this->movingDown = downPressed;
+    this->movingUp = upPressed;
+    this->movingLeft = leftPressed;
+    this->movingRight = rightPressed;
 }

@@ -39,13 +39,31 @@ void Game::handleInput()
     return;
 }
 
+void Game::cameraUpdate()
+{
+    // follow player
+
+    camera.setCenter(player->getPosition());
+
+    // case for level being smaller than the screen
+
+    if (levelHeight < 9)
+    {
+        camera.setCenter(camera.getCenter().x, (int)((levelHeight - 1) * TILE_SIZE) / 2);
+    }
+    if (levelWidth < 12)
+    {
+        camera.setCenter((int)((levelWidth - 1) * TILE_SIZE) / 2, this->camera.getCenter().y);
+    }
+}
+
 void Game::run()
 {
     player = new Player();
 
     while ((window.isOpen()))
     {
-        if (gameClock.getElapsedTime().asSeconds() >= 0.00167777)
+        if (gameClock.getElapsedTime().asSeconds() >= 0.0033)
         {
             // MAIN GAME LOOP
 
@@ -56,6 +74,8 @@ void Game::run()
 
             // getting the final state of the grid
             player->update();
+
+            cameraUpdate();
 
             render();
 
@@ -68,6 +88,7 @@ void Game::render()
 {
     window.clear();
 
+    window.setView(camera);
     // std::cout << levelMap.empty() << std::endl;
 
     for (int i = 0; i < levelMap.size(); i++)
@@ -76,15 +97,27 @@ void Game::render()
         for (int j = 0; j < levelMap[i].size(); j++)
         {
             window.draw(levelMap[i][j].getBackLayerVisual());
+        }
+    }
+
+    for (int i = 0; i < levelMap.size(); i++)
+    {
+
+        for (int j = 0; j < levelMap[i].size(); j++)
+        {
+
             window.draw(levelMap[i][j].getMiddleLayerVisual());
+            if (player->getWorldPosition().y == i)
+            {
+                window.draw(player->getSprite());
+            }
             window.draw(levelMap[i][j].getFrontLayerVisual());
         }
     }
-    //
-    window.draw(player->getSprite());
 
     window.display();
 }
+//
 
 void Game::loadLevel(std::string levelName)
 {
@@ -92,25 +125,24 @@ void Game::loadLevel(std::string levelName)
 
     Game::currentLevel = new House(); // CAREFULL POINTERS
 
-    for (int i = 0; i < 5; i++)
+    levelHeight = 8; // 8
+    levelWidth = 11; // 11 for good house size
+
+    for (int i = 0; i < levelHeight; i++)
     {
         levelMap.push_back(std::vector<Tile>());
-        for (int j = 0; j < 5; j++)
+        for (int j = 0; j < levelWidth; j++)
         {
             levelMap[i].push_back(Tile(sf::Vector2<int>(48 * j, 48 * i), TILE_DICTIONARY.at("wood1"))); // TILE_DICTIONARY.at("wardrobe")));
         }
     }
 
-    levelMap[2][2] = Tile(sf::Vector2<int>(48 * 2, 48 * 2), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"));
+    levelMap[0][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 0), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"));
+    levelMap[0][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 0), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"));
 
-    for (int i = 0; i < 5; i++)
-    {
-        for (int j = 0; j < 5; j++)
-        {
-            std::cout << " " << levelMap[i][j].walkable();
-        }
-        std::cout << std::endl;
-    }
+    levelMap[2][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 2), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"));
+
+    levelMap[2][2] = Tile(sf::Vector2<int>(48 * 2, 48 * 2), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"));
 }
 
 sf::View &Game::getCamera()
@@ -125,4 +157,13 @@ sf::Clock &Game::getGameClock()
 std::vector<std::vector<Tile>> &Game::getLevelMap()
 {
     return levelMap;
+}
+
+int Game::getLevelHeight()
+{
+    return levelHeight;
+}
+int Game::getLevelWidth()
+{
+    return levelWidth;
 }

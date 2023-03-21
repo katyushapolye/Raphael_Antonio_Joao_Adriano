@@ -30,11 +30,23 @@ private:
     bool movingRight = false;
     bool movingUp = false;
     bool movingDown = false;
-    bool correcting = false;
+
+    bool leftPressed = false;
+    bool rightPressed = false;
+    bool upPressed = false;
+    bool downPressed = false;
+
+    bool yCorrection = false;
+    bool xCorrection = false;
 
     // internal control functions
 
     void move();
+    void correctMovement();
+    void checkLevelBound();
+    void checkLevelColision();
+
+    void computeInput();
 
 public:
     Player();
@@ -42,6 +54,8 @@ public:
     void update();
     void receiveInput(sf::Event e);
     sf::Sprite &getSprite();
+    sf::Vector2f getPosition();
+    sf::Vector2i getWorldPosition();
 };
 
 #endif
