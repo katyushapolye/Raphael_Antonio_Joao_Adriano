@@ -40,6 +40,8 @@ public:
     sf::Sprite &getBackLayerVisual();
     sf::Sprite &getMiddleLayerVisual();
     sf::Sprite &getFrontLayerVisual();
+
+    bool walkable();
 };
 
 // TILES DICTIONARY, HANDCRAFTED

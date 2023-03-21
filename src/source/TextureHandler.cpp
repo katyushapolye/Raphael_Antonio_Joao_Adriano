@@ -27,6 +27,10 @@ void TextureHandler::loadTexture(TextureAtlas atlas)
         textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Inside_B.png");
         break;
 
+    case TextureAtlas::PRISCILLA:
+        TextureHandler::textures.insert({atlas, sf::Texture()});
+        textures[atlas].loadFromFile("Resources/characters/$PixelFantasy_2-Priscilla.png");
+        break;
     default:
         break;
     }

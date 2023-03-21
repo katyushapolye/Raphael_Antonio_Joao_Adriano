@@ -61,6 +61,11 @@ sf::Sprite &Tile::getBackLayerVisual()
     return this->backLayer;
 }
 
+bool Tile::walkable()
+{
+    return this->isWalkable;
+}
+
 sf::Sprite &Tile::getMiddleLayerVisual()
 {
     return this->middleLayer;

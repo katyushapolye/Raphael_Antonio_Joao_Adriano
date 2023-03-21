@@ -6,20 +6,23 @@
 #include "../Levels/House.hpp"
 #include "TextureHandler.hpp"
 #include "../Entities/Player.hpp"
+// foward  declaration
+class Player;
 
 class Game
 {
 private:
     // basic components
-    sf::View camera;
-    sf::Clock gameClock;
-    sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(800, 600), "GameTest");
+    static inline sf::View camera;
+    static inline sf::Clock gameClock;
+    static inline sf::RenderWindow window;
 
     // Responsible for behaviours
-    Level *currentLevel = nullptr;
-    std::vector<std::vector<Tile>> levelMap;
 
-    Player player;
+    static inline std::vector<std::vector<Tile>> levelMap;
+    static inline Level *currentLevel;
+
+    Player *player;
     // enemies array
 
     // state flags
@@ -49,7 +52,9 @@ private:
 public:
     Game();
 
-    sf::View &getCamera();
+    static sf::View &getCamera();
+    static sf::Clock &getGameClock();
+    static std::vector<std::vector<Tile>> &getLevelMap();
 };
 
 #endif
