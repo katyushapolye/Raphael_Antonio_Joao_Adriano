@@ -21,7 +21,12 @@ void TextureHandler::loadTexture(TextureAtlas atlas)
         textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Inside_A2.png");
         break;
         // Lots of cases
+    case TextureAtlas::IA4:
+        TextureHandler::textures.insert({atlas, sf::Texture()});
 
+        textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Inside_A4.png");
+
+        break;
     case TextureAtlas::IB0:
         TextureHandler::textures.insert({atlas, sf::Texture()});
         textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Inside_B.png");

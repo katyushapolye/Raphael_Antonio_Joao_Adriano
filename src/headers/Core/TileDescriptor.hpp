@@ -11,7 +11,7 @@ struct TileDescriptor
         isWalkable = true;
     };
 
-    TileDescriptor(TextureHandler::TextureAtlas iAtlas, sf::IntRect iRect, bool iWalkable, bool iTwoTileTall, std::string iTrigger = "", std::string iStoryTrigger = "", std::string iAwakeTrigger = "")
+    TileDescriptor(TextureHandler::TextureAtlas iAtlas, sf::IntRect iRect, bool iWalkable, bool iTwoTileTall, std::string iTrigger = "", std::string iStoryTrigger = "", std::string iAwakeTrigger = "", sf::Vector2f iVisualOffset = sf::Vector2f(0, 0))
     {
         atlas = iAtlas;
         rect = iRect;
@@ -20,6 +20,7 @@ struct TileDescriptor
         trigger = iTrigger;
         storyTrigger = iStoryTrigger;
         awakeTrigger = iAwakeTrigger;
+        visualOffset = iVisualOffset;
     };
     TextureHandler::TextureAtlas atlas;
     sf::IntRect rect;
@@ -28,5 +29,7 @@ struct TileDescriptor
     std::string trigger = "";
     std::string storyTrigger = "";
     std::string awakeTrigger = "";
+
+    sf::Vector2f visualOffset;
 };
 #endif

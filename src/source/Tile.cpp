@@ -1,9 +1,10 @@
 #include "../headers/Core/Tile.hpp"
 
-Tile::Tile(sf::Vector2<int> position, TileDescriptor back, TileDescriptor middle, TileDescriptor front)
+Tile::Tile(sf::Vector2<int> position, TileDescriptor back, TileDescriptor middle, TileDescriptor front, sf::Vector2f visualLayerOffSet)
 {
 
     // The position will be set acording to the order of loading, made by the reader on the levelcontroller
+    // the visual layer offset is only aplicable on the middle and front layer
 
     this->position = position;
 
@@ -49,7 +50,7 @@ Tile::Tile(sf::Vector2<int> position, TileDescriptor back, TileDescriptor middle
     }
 
     backLayer.setPosition(this->position.x, this->position.y);
-    middleLayer.setPosition(this->position.x, this->position.y);
+    middleLayer.setPosition(this->position.x + visualLayerOffSet.x, this->position.y + visualLayerOffSet.y);
     frontLayer.setPosition(this->position.x, this->position.y);
 
     this->isWalkable = back.isWalkable && middle.isWalkable && front.isWalkable;
@@ -74,3 +75,8 @@ sf::Sprite &Tile::getFrontLayerVisual()
 {
     return this->frontLayer;
 }
+
+std::string Tile::getTrigger()
+{
+    return this->trigger;
+};

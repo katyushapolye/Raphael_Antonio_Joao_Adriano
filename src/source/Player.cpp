@@ -4,7 +4,7 @@
 
 Player::Player()
 {
-    this->position = sf::Vector2f(48, 48); // 7 * 48);
+    this->position = sf::Vector2f(48 * 2, 48 * 2); // 7 * 48);
     this->visual = sf::Sprite();
     visual.setTexture(TextureHandler::getTexture(TextureHandler::PRISCILLA));
     visual.setOrigin(24, 24);

@@ -45,7 +45,25 @@ void Game::cameraUpdate()
 
     camera.setCenter(player->getPosition());
 
+    // case for edge of screen
+    // camera is 800x600 too
+    if (camera.getCenter().x - 300 <= -TILE_SIZE)
+    {
+        camera.setCenter(300 - TILE_SIZE, camera.getCenter().y);
+    }
+    if (camera.getCenter().x + 300 >= (Game::getLevelWidth()) * TILE_SIZE)
+    {
+        camera.setCenter((Game::getLevelWidth()) * TILE_SIZE - 300, camera.getCenter().y);
+    }
+
+    /* NEED TO DO FOR THE Y AXIS
+    if (camera.getCenter().y - 400 >= TILE_SIZE * Game::getLevelHeight())
+    {
+        camera.setCenter(camera.getCenter().x, TILE_SIZE * Game::getLevelHeight() - 400);
+    }*/
+
     // case for level being smaller than the screen
+    // cannot return and must check all in case of vertical/horizontal long level
 
     if (levelHeight < 9)
     {
@@ -115,6 +133,8 @@ void Game::render()
         }
     }
 
+    // debug monitor;
+
     window.display();
 }
 //
@@ -136,13 +156,18 @@ void Game::loadLevel(std::string levelName)
             levelMap[i].push_back(Tile(sf::Vector2<int>(48 * j, 48 * i), TILE_DICTIONARY.at("wood1"))); // TILE_DICTIONARY.at("wardrobe")));
         }
     }
+    for (int i = 0; i < levelWidth; i++)
+    {
+        levelMap[1][i] = Tile(sf::Vector2<int>(48 * i, 48), TILE_DICTIONARY.at("woodwallbotton1"));
 
-    levelMap[0][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 0), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"));
-    levelMap[0][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 0), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"));
+        levelMap[0][i] = Tile(sf::Vector2<int>(48 * i, 0), TILE_DICTIONARY.at("woodwalltop1"));
+    }
 
-    levelMap[2][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 2), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"));
+    levelMap[0][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 0), TILE_DICTIONARY.at("woodwalltop1"), TILE_DICTIONARY.at("frame"));
+    levelMap[0][3] = Tile(sf::Vector2<int>(48 * 3, 48 * 0), TILE_DICTIONARY.at("woodwalltop1"), TILE_DICTIONARY.at("window"));
+    levelMap[0][6] = Tile(sf::Vector2<int>(48 * 6, 48 * 0), TILE_DICTIONARY.at("woodwalltop1"), TILE_DICTIONARY.at("window"));
 
-    levelMap[2][2] = Tile(sf::Vector2<int>(48 * 2, 48 * 2), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"));
+    levelMap[1][1] = Tile(sf::Vector2<int>(48 * 1, 48 * 1), TILE_DICTIONARY.at("woodwallbotton1"), TILE_DICTIONARY.at("wardrobe"), TileDescriptor(), sf::Vector2f(0, +20.f));
 }
 
 sf::View &Game::getCamera()
