@@ -49,16 +49,24 @@ public:
 // TILES DICTIONARY, HANDCRAFTED
 
 static const inline std::unordered_map<std::string, TileDescriptor> TILE_DICTIONARY = {
+    // Multi tiles horizontal blocks can work if they are on a wall or are not collideble
     {"grass1", TileDescriptor(TextureHandler::TextureAtlas::OA2, sf::IntRect(0, 0, 48, 48), true, false)},
-    {"wood1", TileDescriptor(TextureHandler::TextureAtlas::IA2, sf::IntRect(0, 144, 48, 48), true, false)},
-    {"woodwallbotton1", TileDescriptor(TextureHandler::TextureAtlas::IA4, sf::IntRect(48, 9 * 48, 48, 48), false, false, "Control2")},
-    {"woodwalltop1", TileDescriptor(TextureHandler::TextureAtlas::IA4, sf::IntRect(48, 8 * 48, 48, 48), false, false, "Control3")},
+    {"wood1", TileDescriptor(TextureHandler::TextureAtlas::IA2, sf::IntRect(0, 48 * 8, 48, 48), true, false)},
+    {"woodwallbotton1", TileDescriptor(TextureHandler::TextureAtlas::IA4, sf::IntRect(48, 9 * 48, 48, 48), false, false)},
+    {"woodwalltop1", TileDescriptor(TextureHandler::TextureAtlas::IA4, sf::IntRect(48, 8 * 48, 48, 48), false, false)},
+    {"carpetTR", TileDescriptor(TextureHandler::IA2, sf::IntRect(48 * 4, 48 * 10, 48, 48), true, false)},
+    {"carpetBR", TileDescriptor(TextureHandler::IA2, sf::IntRect(48 * 4, 48 * 11, 48, 48), true, false)},
+    {"carpetTL", TileDescriptor(TextureHandler::IA2, sf::IntRect(48 * 5, 48 * 10, 48, 48), true, false)},
+    {"carpetBL", TileDescriptor(TextureHandler::IA2, sf::IntRect(48 * 5, 48 * 11, 48, 48), true, false)},
 
-    // Renderer Bug
+    {"dresser", TileDescriptor(TextureHandler::IB0, sf::IntRect(8 * 48, 2 * 48, 96, 48), false, false)},
+
+    {"bedbotton", TileDescriptor(TextureHandler::IB0, sf::IntRect(8 * 48, 6 * 48, 48, 48), false, false)},
+    {"bedtop", TileDescriptor(TextureHandler::IB0, sf::IntRect(8 * 48, 5 * 48, 48, 48), false, false)},
+
     {"frame", TileDescriptor(TextureHandler::TextureAtlas::IB0, sf::IntRect(480, 0, 96, 48), false, false)}, // need to look into
     {"cupboard", TileDescriptor(TextureHandler::IB0, sf::IntRect(432, 96, 48, 48), false, false)},
     {"window", TileDescriptor(TextureHandler::IB0, sf::IntRect(5 * 48, 400, 48, 60), false, false)},
-
     {"wardrobe", TileDescriptor(TextureHandler::TextureAtlas::IB0, sf::IntRect(480, 144, 48, -96), false, true)}, // will need invertion
 
 };

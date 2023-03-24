@@ -3,29 +3,29 @@
 #include "../Core/TextureHandler.hpp"
 #include "../Core/Game.hpp"
 #include <SFML/Graphics.hpp>
+
 class Player
 {
+public:
+    enum class Direction;
 
 private:
-    enum Direction
-    {
-        North,
-        South,
-        East,
-        West,
-    };
-
     sf::Vector2f position;
     sf::Sprite visual;
 
     int worldX = 0;
     int worldY = 0;
 
-    int velocity = 300;
+    int velocity = 100;
     // animationcontroller
 
-    // Facing?
-    Direction facing = Player::Direction::South;
+    // Facing is used for position correction
+    Player::Direction facing = Player::Direction::South;
+
+    // looking is used for interaction direction and animation
+
+    Player::Direction looking = Player::Direction::South;
+
     bool movingLeft = false;
     bool movingRight = false;
     bool movingUp = false;
@@ -39,6 +39,10 @@ private:
     bool yCorrection = false;
     bool xCorrection = false;
 
+    bool isMoving = false;
+
+    bool interactionPending = false;
+
     // internal control functions
 
     void move();
@@ -49,6 +53,13 @@ private:
     void computeInput();
 
 public:
+    enum class Direction
+    {
+        North,
+        South,
+        East,
+        West,
+    };
     Player();
 
     void update();
@@ -56,6 +67,10 @@ public:
     sf::Sprite &getSprite();
     sf::Vector2f getPosition();
     sf::Vector2i getWorldPosition();
+
+    Direction getFacing();
+
+    Direction getLooking();
 };
 
 #endif

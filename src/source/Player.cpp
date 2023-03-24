@@ -23,12 +23,22 @@ void Player::update()
 
     this->move();
 
+    this->isMoving = movingLeft || movingRight || movingUp || movingDown;
+
+    if (interactionPending == true)
+    {
+        std::cout << "Interaction on player triggered" << std::endl;
+        interactionPending = false;
+    }
+
     this->position = sf::Vector2f(round(this->position.x), round(this->position.y));
 
-    this->visual.setPosition(sf::Vector2f(this->position));
+    this->visual.setPosition(sf::Vector2f(this->position.x, this->position.y));
 
     worldX = int(this->position.x) / TILE_SIZE;
     worldY = int(this->position.y) / TILE_SIZE;
+
+    // update animation
 }
 
 sf::Sprite &Player::getSprite()
@@ -41,7 +51,7 @@ void Player::receiveInput(sf::Event e)
     if (e.type == sf::Event::KeyPressed)
     {
         // 4 directional movement for ease of tile management and interaction
-
+        // trade for switch urgently
         if (e.key.code == sf::Keyboard::Up)
         {
 
@@ -49,6 +59,7 @@ void Player::receiveInput(sf::Event e)
             // movingLeft = false;
             // movingRight = false;
             upPressed = true;
+            looking = Direction::North;
         }
         if (e.key.code == sf::Keyboard::Down)
         {
@@ -56,6 +67,7 @@ void Player::receiveInput(sf::Event e)
             // movingLeft = false;
             // movingRight = false;
             downPressed = true;
+            looking = Direction::South;
         }
         if (e.key.code == sf::Keyboard::Left)
         {
@@ -63,6 +75,7 @@ void Player::receiveInput(sf::Event e)
             // movingDown = false;
             leftPressed = true;
             // movingRight = false;
+            looking = Direction::West;
         }
         if (e.key.code == sf::Keyboard::Right)
         {
@@ -70,6 +83,12 @@ void Player::receiveInput(sf::Event e)
             // movingDown = false;
             // movingLeft = false;
             rightPressed = true;
+            looking = Direction::East;
+        }
+
+        if (e.key.code == sf::Keyboard::Z)
+        {
+            interactionPending = true;
         }
     }
     if (e.type == sf::Event::KeyReleased)
@@ -90,6 +109,10 @@ void Player::receiveInput(sf::Event e)
         {
             rightPressed = false;
         }
+        if (e.key.code == sf::Keyboard::Z)
+        {
+            interactionPending = false;
+        }
     }
 }
 
@@ -98,57 +121,57 @@ void Player::move()
     // Illusion of tile based movement
     // make movement dependent on both the keypressed AND the hability to move (movingDir)
 
-    if ((int)this->position.x % TILE_SIZE != 0 && this->facing == East)
+    if ((int)this->position.x % TILE_SIZE != 0 && this->facing == Direction::East)
     {
         // std::cout << "Triggering Corrections" << std::endl;
         this->position.x++;
-        this->facing = East;
+        this->facing = Direction::East;
         return;
     }
 
-    if ((int)this->position.x % TILE_SIZE != 0 && this->facing == West)
+    if ((int)this->position.x % TILE_SIZE != 0 && this->facing == Direction::West)
     {
         // std::cout << "Triggering Corrections" << std::endl;
         this->position.x--;
-        this->facing = West;
+        this->facing = Direction::West;
         return;
     }
 
-    if ((int)this->position.y % TILE_SIZE != 0 && this->facing == North)
+    if ((int)this->position.y % TILE_SIZE != 0 && this->facing == Direction::North)
     {
         this->position.y--;
-        this->facing = North;
+        this->facing = Direction::North;
         return;
     }
-    if ((int)this->position.y % TILE_SIZE != 0 && this->facing == South)
+    if ((int)this->position.y % TILE_SIZE != 0 && this->facing == Direction::South)
     {
         this->position.y++;
-        this->facing = South;
+        this->facing = Direction::South;
         return;
     }
 
     if (this->movingUp == true)
     {
         this->position.y--;
-        this->facing = North;
+        this->facing = Direction::North;
         return;
     }
     if (this->movingDown == true)
     {
         this->position.y++;
-        this->facing = South;
+        this->facing = Direction::South;
         return;
     }
     if (this->movingLeft == true)
     {
         this->position.x--;
-        this->facing = West;
+        this->facing = Direction::West;
         return;
     }
     if (this->movingRight == true)
     {
         this->position.x++;
-        this->facing = East;
+        this->facing = Direction::East;
         return;
     }
 
@@ -234,4 +257,14 @@ void Player::computeInput()
     this->movingUp = upPressed;
     this->movingLeft = leftPressed;
     this->movingRight = rightPressed;
+}
+
+Player::Direction Player::getFacing()
+{
+    return this->facing;
+}
+
+Player::Direction Player::getLooking()
+{
+    return this->looking;
 }

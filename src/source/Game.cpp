@@ -10,6 +10,11 @@ Game::Game()
     gameClock.restart();
     TextureHandler::loadAllTextures();
     loadLevel("House");
+    defaultFont.loadFromFile("Resources/fonts/cinecaption226.ttf");
+    shader.loadFromFile("Resources/shaders/glow.glsl", sf::Shader::Fragment);
+
+    // Debug
+
     run();
 }
 
@@ -28,7 +33,8 @@ void Game::handleInput()
             if ((e.key.code == sf::Keyboard::Up ||
                  e.key.code == sf::Keyboard::Down ||
                  e.key.code == sf::Keyboard::Right ||
-                 e.key.code == sf::Keyboard::Left) &&
+                 e.key.code == sf::Keyboard::Left ||
+                 e.key.code == sf::Keyboard::Z) &&
                 !(isDialogue || isPaused))
             {
                 player->receiveInput(e);
@@ -81,7 +87,7 @@ void Game::run()
 
     while ((window.isOpen()))
     {
-        if (gameClock.getElapsedTime().asSeconds() >= 0.0033)
+        if (gameClock.getElapsedTime().asSeconds() >= 0.00327777)
         {
             // MAIN GAME LOOP
 
@@ -127,13 +133,17 @@ void Game::render()
             window.draw(levelMap[i][j].getMiddleLayerVisual());
             if (player->getWorldPosition().y == i)
             {
-                window.draw(player->getSprite());
+                shader.setParameter("texture", TextureHandler::getTexture(TextureHandler::PRISCILLA));
+                window.draw(player->getSprite(), &shader);
             }
             window.draw(levelMap[i][j].getFrontLayerVisual());
         }
     }
 
+    // render UI
+
     // debug monitor;
+    renderDebugMonitor();
 
     window.display();
 }
@@ -146,7 +156,7 @@ void Game::loadLevel(std::string levelName)
     Game::currentLevel = new House(); // CAREFULL POINTERS
 
     levelHeight = 8; // 8
-    levelWidth = 11; // 11 for good house size
+    levelWidth = 10; // 11 for good house size
 
     for (int i = 0; i < levelHeight; i++)
     {
@@ -156,18 +166,36 @@ void Game::loadLevel(std::string levelName)
             levelMap[i].push_back(Tile(sf::Vector2<int>(48 * j, 48 * i), TILE_DICTIONARY.at("wood1"))); // TILE_DICTIONARY.at("wardrobe")));
         }
     }
+
     for (int i = 0; i < levelWidth; i++)
     {
         levelMap[1][i] = Tile(sf::Vector2<int>(48 * i, 48), TILE_DICTIONARY.at("woodwallbotton1"));
-
         levelMap[0][i] = Tile(sf::Vector2<int>(48 * i, 0), TILE_DICTIONARY.at("woodwalltop1"));
     }
+
+    for (int i = 0; i < levelWidth; i++)
+    {
+        levelMap[levelHeight - 1][i] = Tile(sf::Vector2<int>(48 * i, 48), TileDescriptor(false));
+    }
+
+    levelMap[levelHeight - 1][4] = Tile(sf::Vector2<int>(48 * 4, (levelHeight - 1) * 48), TILE_DICTIONARY.at("wood1"));
+    levelMap[levelHeight - 1][5] = Tile(sf::Vector2<int>(48 * 5, (levelHeight - 1) * 48), TILE_DICTIONARY.at("wood1"));
 
     levelMap[0][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 0), TILE_DICTIONARY.at("woodwalltop1"), TILE_DICTIONARY.at("frame"));
     levelMap[0][3] = Tile(sf::Vector2<int>(48 * 3, 48 * 0), TILE_DICTIONARY.at("woodwalltop1"), TILE_DICTIONARY.at("window"));
     levelMap[0][6] = Tile(sf::Vector2<int>(48 * 6, 48 * 0), TILE_DICTIONARY.at("woodwalltop1"), TILE_DICTIONARY.at("window"));
 
-    levelMap[1][1] = Tile(sf::Vector2<int>(48 * 1, 48 * 1), TILE_DICTIONARY.at("woodwallbotton1"), TILE_DICTIONARY.at("wardrobe"), TileDescriptor(), sf::Vector2f(0, +20.f));
+    levelMap[1][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 1), TILE_DICTIONARY.at("woodwallbotton1"), TILE_DICTIONARY.at("dresser"), TileDescriptor(), sf::Vector2f(0, +12.f));
+
+    levelMap[4][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 4), TILE_DICTIONARY.at("carpetTR"));
+    levelMap[5][4] = Tile(sf::Vector2<int>(48 * 4, 48 * 5), TILE_DICTIONARY.at("carpetBR"));
+    levelMap[4][5] = Tile(sf::Vector2<int>(48 * 5, 48 * 4), TILE_DICTIONARY.at("carpetTL"));
+    levelMap[5][5] = Tile(sf::Vector2<int>(48 * 5, 48 * 5), TILE_DICTIONARY.at("carpetBL"));
+
+    levelMap[1][1] = Tile(sf::Vector2<int>(48 * 1, 48 * 1), TILE_DICTIONARY.at("woodwallbotton1"), TILE_DICTIONARY.at("wardrobe"), TileDescriptor(), sf::Vector2f(0, +24.f));
+
+    levelMap[6][9] = Tile(sf::Vector2<int>(48 * 9, 48 * 6), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("bedbotton"));
+    levelMap[5][9] = Tile(sf::Vector2<int>(48 * 9, 48 * 5), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("bedtop"));
 }
 
 sf::View &Game::getCamera()
@@ -191,4 +219,79 @@ int Game::getLevelHeight()
 int Game::getLevelWidth()
 {
     return levelWidth;
+}
+
+void Game::renderDebugMonitor()
+{
+
+    sf::Text playerPositionX;
+    sf::Text playerPositionY;
+    sf::Text playerFacing;
+    sf::Text playerLooking;
+
+    playerFacing.setFont(defaultFont);
+    playerPositionX.setFont(defaultFont);
+    playerPositionY.setFont(defaultFont);
+    playerLooking.setFont(defaultFont);
+
+    playerFacing.setScale(0.4, 0.4);
+    playerPositionX.setScale(0.5, 0.5);
+    playerPositionY.setScale(0.5, 0.5);
+    playerLooking.setScale(0.4, 0.4);
+
+    playerFacing.setFillColor(sf::Color::Green);
+    playerPositionX.setFillColor(sf::Color::Green);
+    playerPositionY.setFillColor(sf::Color::Green);
+    playerLooking.setFillColor(sf::Color::Green);
+
+    playerPositionX.setString("X: " + std::to_string(player->getWorldPosition().x));
+    playerPositionY.setString("Y: " + std::to_string(player->getWorldPosition().y));
+
+    switch (this->player->getFacing())
+    {
+    case Player::Direction::North:
+        playerFacing.setString("Facing: North");
+        break;
+    case Player::Direction::South:
+        playerFacing.setString("Facing: South");
+        break;
+    case Player::Direction::East:
+        playerFacing.setString("Facing: East");
+        break;
+    case Player::Direction::West:
+        playerFacing.setString("Facing: West");
+        break;
+
+    default:
+        break;
+    }
+
+    switch (this->player->getLooking())
+    {
+    case Player::Direction::North:
+        playerLooking.setString("Looking: North");
+        break;
+    case Player::Direction::South:
+        playerLooking.setString("Looking: South");
+        break;
+    case Player::Direction::East:
+        playerLooking.setString("Looking: East");
+        break;
+    case Player::Direction::West:
+        playerLooking.setString("Looking: West");
+        break;
+
+    default:
+        break;
+    }
+
+    playerPositionY.setPosition(camera.getCenter().x + 150, camera.getCenter().y - 240);
+    playerPositionX.setPosition(camera.getCenter().x + 110, camera.getCenter().y - 240);
+    playerFacing.setPosition(camera.getCenter().x + 110, camera.getCenter().y - 220);
+    playerLooking.setPosition(camera.getCenter().x + 110, camera.getCenter().y - 210);
+
+    window.draw(playerPositionX);
+    window.draw(playerPositionY);
+    window.draw(playerFacing);
+    window.draw(playerLooking);
 }

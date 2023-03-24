@@ -10,6 +10,10 @@ struct TileDescriptor
     {
         isWalkable = true;
     };
+    TileDescriptor(bool isWalkable)
+    {
+        this->isWalkable = isWalkable;
+    };
 
     TileDescriptor(TextureHandler::TextureAtlas iAtlas, sf::IntRect iRect, bool iWalkable, bool iTwoTileTall, std::string iTrigger = "", std::string iStoryTrigger = "", std::string iAwakeTrigger = "", sf::Vector2f iVisualOffset = sf::Vector2f(0, 0))
     {

@@ -36,6 +36,11 @@ void TextureHandler::loadTexture(TextureAtlas atlas)
         TextureHandler::textures.insert({atlas, sf::Texture()});
         textures[atlas].loadFromFile("Resources/characters/$PixelFantasy_2-Priscilla.png");
         break;
+
+    case TextureAtlas::WINDOW:
+        TextureHandler::textures.insert({atlas, sf::Texture()});
+        textures[atlas].loadFromFile("Resources/system/Window.png");
+
     default:
         break;
     }

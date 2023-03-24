@@ -15,6 +15,7 @@ private:
     // basic components
     static inline sf::View camera;
     static inline sf::Clock gameClock;
+    static inline sf::Font defaultFont;
     static inline sf::RenderWindow window;
 
     // Responsible for behaviours
@@ -51,6 +52,11 @@ private:
     void run();
 
     void loadLevel(std::string levelName);
+
+    // debug things
+
+    void renderDebugMonitor();
+    sf::Shader shader;
 
 public:
     Game();
