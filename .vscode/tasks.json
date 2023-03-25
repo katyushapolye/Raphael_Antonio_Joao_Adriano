@@ -16,7 +16,8 @@
                 "${workspaceFolder}/bin/GameTest",
                 "-lsfml-graphics",
                 "-lsfml-window",
-                "-lsfml-system"
+                "-lsfml-system",
+                "-lGL"
             ],
             "options": {
                 "cwd": "${fileDirname}"

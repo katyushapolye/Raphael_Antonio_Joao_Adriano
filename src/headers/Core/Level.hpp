@@ -3,6 +3,7 @@
 #include "Tile.hpp"
 #include <vector>
 #include <iostream>
+#include <SFML/OpenGL.hpp>
 class Level
 {
 protected:

@@ -10,9 +10,17 @@ Game::Game()
     gameClock.restart();
     TextureHandler::loadAllTextures();
     loadLevel("House");
-    defaultFont.loadFromFile("Resources/fonts/cinecaption226.ttf");
-    shader.loadFromFile("Resources/shaders/glow.glsl", sf::Shader::Fragment);
 
+    defaultFont.loadFromFile("Resources/fonts/cinecaption226.ttf");
+
+    lightShader.loadFromFile("Resources/shaders/light.glsl", sf::Shader::Fragment);
+
+    lightShader.setUniform("levelTexture", sf::Shader::CurrentTexture);
+
+    // lightShader.setUniform("levelTexture2", sf::Shader::CurrentTexture);
+
+    lightShader.setUniform("lightRadius", 128.f);
+    lightShader.setUniform("defaultLight", 0.3f);
     // Debug
 
     run();
@@ -114,13 +122,16 @@ void Game::render()
 
     window.setView(camera);
     // std::cout << levelMap.empty() << std::endl;
+    lightShader.setUniform("lightPosition", player->getPosition());
 
     for (int i = 0; i < levelMap.size(); i++)
     {
 
         for (int j = 0; j < levelMap[i].size(); j++)
         {
-            window.draw(levelMap[i][j].getBackLayerVisual());
+
+            lightShader.setUniform("spritePosition", levelMap[i][j].getBackLayerVisual().getPosition());
+            window.draw(levelMap[i][j].getBackLayerVisual(), &lightShader);
         }
     }
 
@@ -130,13 +141,18 @@ void Game::render()
         for (int j = 0; j < levelMap[i].size(); j++)
         {
 
-            window.draw(levelMap[i][j].getMiddleLayerVisual());
+            // sf::Texture::bind(player->getSprite().getTexture());
+            lightShader.setUniform("spritePosition", levelMap[i][j].getMiddleLayerVisual().getPosition());
+
+            window.draw(levelMap[i][j].getMiddleLayerVisual(), &lightShader);
             if (player->getWorldPosition().y == i)
             {
-                shader.setParameter("texture", TextureHandler::getTexture(TextureHandler::PRISCILLA));
-                window.draw(player->getSprite(), &shader);
+
+                window.draw(player->getSprite());
             }
-            window.draw(levelMap[i][j].getFrontLayerVisual());
+            lightShader.setUniform("spritePosition", levelMap[i][j].getFrontLayerVisual().getPosition());
+
+            window.draw(levelMap[i][j].getFrontLayerVisual(), &lightShader);
         }
     }
 
@@ -177,6 +193,8 @@ void Game::loadLevel(std::string levelName)
     {
         levelMap[levelHeight - 1][i] = Tile(sf::Vector2<int>(48 * i, 48), TileDescriptor(false));
     }
+    // HOUSE 40 40
+    //(wood1)(wood1,wardrobe)(null)()()()
 
     levelMap[levelHeight - 1][4] = Tile(sf::Vector2<int>(48 * 4, (levelHeight - 1) * 48), TILE_DICTIONARY.at("wood1"));
     levelMap[levelHeight - 1][5] = Tile(sf::Vector2<int>(48 * 5, (levelHeight - 1) * 48), TILE_DICTIONARY.at("wood1"));

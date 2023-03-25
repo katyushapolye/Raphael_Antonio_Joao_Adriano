@@ -56,7 +56,8 @@ private:
     // debug things
 
     void renderDebugMonitor();
-    sf::Shader shader;
+    sf::Shader darkShader;
+    sf::Shader lightShader;
 
 public:
     Game();
