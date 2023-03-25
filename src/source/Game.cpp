@@ -13,14 +13,14 @@ Game::Game()
 
     defaultFont.loadFromFile("Resources/fonts/cinecaption226.ttf");
 
-    lightShader.loadFromFile("Resources/shaders/light.glsl", sf::Shader::Fragment);
+    lightShader.loadFromFile("Resources/shaders/dynamicLight.glsl", sf::Shader::Fragment);
 
     lightShader.setUniform("levelTexture", sf::Shader::CurrentTexture);
 
     // lightShader.setUniform("levelTexture2", sf::Shader::CurrentTexture);
 
-    lightShader.setUniform("lightRadius", 128.f);
-    lightShader.setUniform("defaultLight", 0.3f);
+    lightShader.setUniform("lightRadius", 100.f);
+    lightShader.setUniform("defaultLight", 0.4f);
     // Debug
 
     run();
@@ -147,8 +147,10 @@ void Game::render()
             window.draw(levelMap[i][j].getMiddleLayerVisual(), &lightShader);
             if (player->getWorldPosition().y == i)
             {
+                // we dont drawn the player with the shader, because he is always well light since he is the source of light
 
-                window.draw(player->getSprite());
+                lightShader.setUniform("spritePosition", player->getSprite().getPosition());
+                window.draw(player->getSprite(), &lightShader);
             }
             lightShader.setUniform("spritePosition", levelMap[i][j].getFrontLayerVisual().getPosition());
 
@@ -262,8 +264,8 @@ void Game::renderDebugMonitor()
     playerPositionY.setFillColor(sf::Color::Green);
     playerLooking.setFillColor(sf::Color::Green);
 
-    playerPositionX.setString("X: " + std::to_string(player->getWorldPosition().x));
-    playerPositionY.setString("Y: " + std::to_string(player->getWorldPosition().y));
+    playerPositionX.setString("X: " + std::to_string(player->getPosition().x) + " [" + std::to_string(player->getWorldPosition().x) + "]");
+    playerPositionY.setString("Y: " + std::to_string(player->getPosition().y) + " [" + std::to_string(player->getWorldPosition().y) + "]");
 
     switch (this->player->getFacing())
     {
@@ -303,8 +305,8 @@ void Game::renderDebugMonitor()
         break;
     }
 
-    playerPositionY.setPosition(camera.getCenter().x + 150, camera.getCenter().y - 240);
-    playerPositionX.setPosition(camera.getCenter().x + 110, camera.getCenter().y - 240);
+    playerPositionY.setPosition(camera.getCenter().x - 60, camera.getCenter().y - 220);
+    playerPositionX.setPosition(camera.getCenter().x - 60, camera.getCenter().y - 240);
     playerFacing.setPosition(camera.getCenter().x + 110, camera.getCenter().y - 220);
     playerLooking.setPosition(camera.getCenter().x + 110, camera.getCenter().y - 210);
 
