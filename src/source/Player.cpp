@@ -6,7 +6,7 @@ Player::Player()
 {
     this->position = sf::Vector2f(48 * 2, 48 * 2); // 7 * 48);
     this->visual = sf::Sprite();
-    visual.setTexture(TextureHandler::getTexture(TextureHandler::PRISCILLA));
+    visual.setTexture(TextureHandler::getTexture(TextureHandler::PRISCILLA)); // define personagem
     visual.setOrigin(24, 24);
     visual.setTextureRect(sf::IntRect(48, 96, 48, -96));
     visual.setScale(1.0f, -1.0f);
