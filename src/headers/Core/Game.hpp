@@ -6,6 +6,7 @@
 #include "../Levels/House.hpp"
 #include "TextureHandler.hpp"
 #include "../Entities/Player.hpp"
+#include "../Audio/AudioHandler.hpp"
 // foward  declaration
 class Player;
 
@@ -25,8 +26,8 @@ private:
 
     static inline int levelHeight = 0;
     static inline int levelWidth = 0;
-
     Player *player;
+    AudioHandler audioHandler;
     // enemies array
 
     // state flags

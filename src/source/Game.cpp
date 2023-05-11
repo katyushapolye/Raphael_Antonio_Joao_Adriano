@@ -2,15 +2,14 @@
 
 Game::Game()
 {
-
     camera = sf::View(sf::FloatRect(0.0f, 0.0f, 640.f, 480.f));
     camera.setCenter(0, 0);
     window.create(sf::VideoMode(800, 600), "GameTest");
     camera.zoom(1.0);
     gameClock.restart();
     TextureHandler::loadAllTextures();
+    audioHandler.loadMusic("TownTheme","Resources/sounds/Town_Theme.wav");
     loadLevel("House");
-
     defaultFont.loadFromFile("Resources/fonts/cinecaption226.ttf");
 
     lightShader.loadFromFile("Resources/shaders/dynamicLight.glsl", sf::Shader::Fragment);
@@ -22,6 +21,7 @@ Game::Game()
     lightShader.setUniform("lightRadius", 100.f);
     lightShader.setUniform("defaultLight", 0.4f);
     // Debug
+    
 
     run();
 }
@@ -92,7 +92,7 @@ void Game::cameraUpdate()
 void Game::run()
 {
     player = new Player();
-
+    audioHandler.playMusic("TownTheme", true);
     while ((window.isOpen()))
     {
         if (gameClock.getElapsedTime().asSeconds() >= 0.00327777)
