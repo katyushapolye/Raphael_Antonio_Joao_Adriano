@@ -6,6 +6,7 @@
 #include "../Levels/House.hpp"
 #include "TextureHandler.hpp"
 #include "../Entities/Player.hpp"
+
 // foward  declaration
 class Player;
 
@@ -52,6 +53,8 @@ private:
     void run();
 
     void loadLevel(std::string levelName);
+
+    //void LerArquivo(std::string arquivo);
 
     // debug things
 

@@ -1,4 +1,13 @@
 #include "../headers/Core/Game.hpp"
+/*
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <algorithm>
+#include <vector>
+#include <cstring>
+*/
 
 Game::Game()
 {
@@ -315,3 +324,48 @@ void Game::renderDebugMonitor()
     window.draw(playerFacing);
     window.draw(playerLooking);
 }
+
+/*
+
+//Esboço da leitura de arquivo
+void Game::LerArquivo(std::string entrada)
+{
+    ifstream arq;
+    arq.open(entrada);
+    if(!arq.is_open())
+    {
+        cout << "nao foi possivel abrir o arquivo." << endl;
+        return;
+    }
+    std::string linha;
+
+    getline(arq,linha);
+    if(linha == "House")
+    {
+        Game::currentLevel = new House(); 
+    }
+    getline(arq,linha);
+    
+    levelHeight = atol(linha);
+    
+    getline(arq,linha);
+
+    levelWidth = atol(linha); 
+    for(int i = 0 ; i<levelHeight ;i++)
+    {
+        stringstream ss(linha);
+        string num;
+        for(int j=0;j<LevelWidth;j++)
+        {
+            getline(ss, num,',')
+            backLayer = dict[atol(num)];
+            getline(ss, num,',')
+            middleLayer = dict[atol(num)];
+            getline(ss, num,',')
+            frontLayer = dict[atol(num)];
+            //levelMap[i][j] = Tile(sf::Vector2<int>(48 * 4, 48 * 4), TILE_DICTIONARY.at("carpetTR"));
+            
+        }
+    }
+}
+*/
