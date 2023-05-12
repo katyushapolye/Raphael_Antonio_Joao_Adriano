@@ -11,6 +11,8 @@ Player::Player()
     visual.setTextureRect(sf::IntRect(48, 96, 48, -96));
     visual.setScale(1.0f, -1.0f);
     visual.setPosition(this->position.x, this->position.y);
+
+    animationClock.restart();
 }
 
 void Player::update()
@@ -38,7 +40,7 @@ void Player::update()
     worldX = int(this->position.x) / TILE_SIZE;
     worldY = int(this->position.y) / TILE_SIZE;
 
-    // update animation
+    this->updateAnimation();
 }
 
 sf::Sprite &Player::getSprite()
@@ -267,4 +269,42 @@ Player::Direction Player::getFacing()
 Player::Direction Player::getLooking()
 {
     return this->looking;
+}
+
+void Player::updateAnimation()
+{
+    int atlasY = 0;
+    int atlasX = 0;
+
+    switch (this->facing)
+    {
+    case Player::Direction::North:
+        atlasY = 8 * 48;
+        break;
+    case Player::Direction::South:
+        atlasY = 2 * 48;
+        break;
+    case Player::Direction::West:
+        atlasY = 4 * 48;
+        break;
+    case Player::Direction::East:
+        atlasY = 6 * 48;
+        break;
+
+    default:
+        break;
+    }
+    atlasX = lastAnimFrame;
+
+    if (animationClock.getElapsedTime().asSeconds() >= 0.1)
+    {
+        atlasX++;
+        atlasX = atlasX % 3;
+        lastAnimFrame = atlasX;
+        animationClock.restart();
+    }
+
+    !isMoving ? atlasX = 48 : atlasX = atlasX * 48;
+
+    this->visual.setTextureRect(sf::IntRect(atlasX, atlasY, 48, -96));
 }

@@ -43,12 +43,18 @@ private:
 
     bool interactionPending = false;
 
+    // animations
+    sf::Clock animationClock;
+    int lastAnimFrame = 1;
+
     // internal control functions
 
     void move();
     void correctMovement();
     void checkLevelBound();
     void checkLevelColision();
+
+    void updateAnimation();
 
     void computeInput();
 
