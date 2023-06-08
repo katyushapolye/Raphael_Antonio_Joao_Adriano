@@ -1,0 +1,15 @@
+L$NPC$"Hello, My Name is NPC";
+L$NPC$"What is Yours?";
+C$NPC$|Choice_1-"Choice 1"|Choice_2-"Choice 2"|;
+#BackTrack;
+L$NPC$"You are back on the Track of Dialogue!";
+
+
+
+#Choice_1;
+L$NPC$"Hmmmm";
+J$NPC$"Okay, You've Chosen Choice 1"BackTrack;
+
+#Choice_2;
+L$NPC$"Hmmmm";
+J$NPC$"Okay, You've Chosen Choice 2"BackTrack;

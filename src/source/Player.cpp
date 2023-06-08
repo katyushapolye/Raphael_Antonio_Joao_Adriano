@@ -27,10 +27,11 @@ void Player::update()
 
     this->isMoving = movingLeft || movingRight || movingUp || movingDown;
 
-    if (interactionPending == true)
+    if (interactionPending == true && isMoving == false)
     {
         std::cout << "Interaction on player triggered" << std::endl;
         interactionPending = false;
+        DialogueHandler::startDialogue("dialogueSample.dialogue");
     }
 
     this->position = sf::Vector2f(round(this->position.x), round(this->position.y));
@@ -303,6 +304,9 @@ void Player::updateAnimation()
         lastAnimFrame = atlasX;
         animationClock.restart();
     }
+
+    if (!isMoving)
+        this->facing = this->looking;
 
     !isMoving ? atlasX = 48 : atlasX = atlasX * 48;
 

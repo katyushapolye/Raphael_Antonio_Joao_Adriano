@@ -19,6 +19,9 @@ Game::Game()
     gameClock.restart();
     TextureHandler::loadAllTextures();
     loadLevel("House");
+    isDialogue = false;
+    isMainMenu = false;
+    isPaused = false;
 
     defaultFont.loadFromFile("Resources/fonts/cinecaption226.ttf");
 
@@ -29,7 +32,7 @@ Game::Game()
     // lightShader.setUniform("levelTexture2", sf::Shader::CurrentTexture);
 
     lightShader.setUniform("lightRadius", 100.f);
-    lightShader.setUniform("defaultLight", 0.4f);
+    lightShader.setUniform("defaultLight", 1.0f);
     // Debug
 
     run();
@@ -45,7 +48,7 @@ void Game::handleInput()
             window.close();
         }
 
-        if (e.type == sf::Event::KeyPressed || sf::Event::KeyReleased)
+        if ((e.type == sf::Event::KeyPressed || sf::Event::KeyReleased))
         {
             if ((e.key.code == sf::Keyboard::Up ||
                  e.key.code == sf::Keyboard::Down ||
@@ -55,6 +58,10 @@ void Game::handleInput()
                 !(isDialogue || isPaused))
             {
                 player->receiveInput(e);
+            }
+            else
+            {
+                DialogueHandler::receiveInput(e);
             }
         }
     }
@@ -114,7 +121,11 @@ void Game::run()
             //  can be ignored if is a pause for example)
 
             // getting the final state of the grid
-            player->update();
+            if (!Game::isDialogue)
+            {
+                // Will only update player if dialogue is happening
+                player->update();
+            }
 
             cameraUpdate();
 
@@ -168,6 +179,13 @@ void Game::render()
     }
 
     // render UI
+
+    if (isDialogue)
+    {
+        // pass to dialogueHandler to generate the choices and line
+
+        DialogueHandler::renderDialogue(window);
+    }
 
     // debug monitor;
     renderDebugMonitor();
@@ -325,6 +343,11 @@ void Game::renderDebugMonitor()
     window.draw(playerLooking);
 }
 
+void Game::startDialogueState()
+{
+    Game::isDialogue = true;
+}
+
 /*
 
 //Esboço da leitura de arquivo
@@ -342,15 +365,15 @@ void Game::LerArquivo(std::string entrada)
     getline(arq,linha);
     if(linha == "House")
     {
-        Game::currentLevel = new House(); 
+        Game::currentLevel = new House();
     }
     getline(arq,linha);
-    
+
     levelHeight = atol(linha);
-    
+
     getline(arq,linha);
 
-    levelWidth = atol(linha); 
+    levelWidth = atol(linha);
     for(int i = 0 ; i<levelHeight ;i++)
     {
         stringstream ss(linha);
@@ -364,7 +387,7 @@ void Game::LerArquivo(std::string entrada)
             getline(ss, num,',')
             frontLayer = dict[atol(num)];
             //levelMap[i][j] = Tile(sf::Vector2<int>(48 * 4, 48 * 4), TILE_DICTIONARY.at("carpetTR"));
-            
+
         }
     }
 }

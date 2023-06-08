@@ -31,9 +31,9 @@ private:
     // enemies array
 
     // state flags
-    bool isPaused = false;
-    bool isMainMenu = true;
-    bool isDialogue = false;
+    static inline bool isPaused = false;
+    static inline bool isMainMenu = false;
+    static inline bool isDialogue = false;
 
     // private funcions
 
@@ -54,7 +54,7 @@ private:
 
     void loadLevel(std::string levelName);
 
-    //void LerArquivo(std::string arquivo);
+    // void LerArquivo(std::string arquivo);
 
     // debug things
 
@@ -70,6 +70,9 @@ public:
     static std::vector<std::vector<Tile>> &getLevelMap();
     static int getLevelHeight();
     static int getLevelWidth();
+
+    static void startDialogueState();
+    static void endDialogueState();
 };
 
 #endif

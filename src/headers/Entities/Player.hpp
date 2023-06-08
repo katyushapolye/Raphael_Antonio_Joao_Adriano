@@ -3,6 +3,7 @@
 #include "../Core/TextureHandler.hpp"
 #include "../Core/Game.hpp"
 #include <SFML/Graphics.hpp>
+#include "../Components/DialogueHandler.hpp"
 
 class Player
 {
