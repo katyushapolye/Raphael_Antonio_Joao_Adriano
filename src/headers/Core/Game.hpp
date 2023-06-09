@@ -16,7 +16,6 @@ private:
     // basic components
     static inline sf::View camera;
     static inline sf::Clock gameClock;
-    static inline sf::Font defaultFont;
     static inline sf::RenderWindow window;
 
     // Responsible for behaviours
@@ -63,6 +62,8 @@ private:
     sf::Shader lightShader;
 
 public:
+    static inline sf::Font defaultFont;
+
     Game();
 
     static sf::View &getCamera();
