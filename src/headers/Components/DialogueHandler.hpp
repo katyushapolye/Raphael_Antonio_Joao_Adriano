@@ -18,7 +18,8 @@ private:
 
     // Control
     static inline bool isChoice = false;
-    static inline bool isJump = false;
+    static inline bool isParsed = false;
+    static inline std::vector<std::string> choiceMap;
 
     static inline int nextLineNumber = 1;
 
@@ -28,9 +29,11 @@ private:
     static inline sf::Text dialogueLineText;
     static inline sf::Text dialogueNameText;
 
-    static std::string parseLine();
+    static void parseLine();
 
     static void nextLine();
+
+    static void endDialogue();
 
 public:
     static void receiveInput(sf::Event e);

@@ -348,6 +348,11 @@ void Game::startDialogueState()
     Game::isDialogue = true;
 }
 
+void Game::endDialogueState()
+{
+    Game::isDialogue = false;
+}
+
 /*
 
 //Esboço da leitura de arquivo

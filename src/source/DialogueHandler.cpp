@@ -16,7 +16,7 @@ void DialogueHandler::startDialogue(std::string dialogueName)
     file.open(dir);
     std::string line;
     std::string buffer;
-    int i = 0;
+    int i = 1;
     if (file.is_open())
     {
 
@@ -34,12 +34,18 @@ void DialogueHandler::startDialogue(std::string dialogueName)
                     buffer += line[i];
                     i++;
                 }
-                i = 0;
+                i = 1;
                 labelMap.insert(std::pair<std::string, int>(buffer, (lineNumber + 1)));
                 buffer = "";
             }
 
             DialogueHandler::lineNumber++;
+        }
+
+        std::cout << "Lines Read" << std::endl;
+        for (int i = 0; i < lines.size(); i++)
+        {
+            std::cout << i << "-" << lines[i] << std::endl;
         }
 
         // starting UI
@@ -67,11 +73,49 @@ void DialogueHandler::startDialogue(std::string dialogueName)
     }
 }
 
+void DialogueHandler::endDialogue()
+{
+
+    Game::endDialogueState();
+    lineNumber = 0;
+    labelMap.clear();
+    lines.clear();
+    buttonTimeout.restart();
+    isChoice = false;
+    isParsed = false;
+    choiceMap.clear();
+    nextLineNumber = 1;
+    dialogueLineText.setString("");
+    dialogueNameText.setString("");
+}
+
 void DialogueHandler::receiveInput(sf::Event e)
 {
     // timeout for pressing key
     if (buttonTimeout.getElapsedTime().asSeconds() < 1.5)
     {
+        return;
+    }
+    if (isChoice)
+    {
+        if (e.key.code == sf::Keyboard::Num1)
+        {
+            isChoice = false;
+            nextLineNumber = labelMap[choiceMap[0]];
+            nextLine();
+            buttonTimeout.restart();
+            return;
+        }
+
+        if (e.key.code == sf::Keyboard::Num2)
+        {
+            isChoice = false;
+            nextLineNumber = labelMap[choiceMap[1]];
+            nextLine();
+            buttonTimeout.restart();
+            return;
+        }
+
         return;
     }
     if (e.key.code == sf::Keyboard::Z)
@@ -85,49 +129,61 @@ void DialogueHandler::nextLine()
 {
     lineNumber = nextLineNumber;
     nextLineNumber = 0;
+    isParsed = false;
 }
 
 void DialogueHandler::renderDialogue(sf::RenderWindow &window)
 {
     window.draw(DialogueHandler::backPanel);
-    std::string dialogueLine = parseLine(); // stick animation into this function if any
 
+    if (!isParsed)
+    {
+        parseLine(); // stick animation into this function if any
+    }
     window.draw(dialogueLineText);
     window.draw(dialogueNameText);
-
-    std::cout << lines[lineNumber] << std::endl;
 }
 
-std::string DialogueHandler::parseLine()
+void DialogueHandler::parseLine()
 {
+    // std::cout << lineNumber << std::endl;
     std::string buffer = lines[lineNumber];
 
     std::string NPCname = "";
     std::string dialogueLine = "";
+    DialogueHandler::choiceMap.clear();
 
-    int i = 2;
+    int i = 0;
+    if (buffer[i] == '*')
+    {
+        endDialogue();
+    }
+    if (buffer[i] != 'L' && buffer[i] != 'J' && buffer[i] != 'C')
+    {
+
+        while (buffer[i] != 'L' && buffer[i] != 'J' && buffer[i] != 'C' && buffer[i] != '*')
+        {
+            lineNumber++;
+            buffer = lines[lineNumber];
+        }
+        return;
+    }
+    // skipping the label if met
+    if (buffer[0] == '#')
+    {
+        buffer = lines[lineNumber + 1];
+        lineNumber = lineNumber + 1;
+    }
+    i = 2;
 
     while (buffer[i] != '$')
     {
         NPCname += buffer[i];
         i++;
     }
-    std::cout << NPCname << std::endl;
 
     if (buffer[0] == 'J')
     {
-        isJump = true;
-
-        // alter the next line adress
-    }
-    if (buffer[0] == 'C')
-    {
-        isChoice = true;
-        //
-    }
-    if (buffer[0] == 'L')
-    {
-        isJump = false;
         isChoice = false;
 
         i += 2;
@@ -146,15 +202,70 @@ std::string DialogueHandler::parseLine()
                 textWidth = 0;
             }
         }
-        std::cout << dialogueLine << std::endl;
 
-        // Setting UI
-
-        dialogueLineText.setString(dialogueLine);
-        dialogueNameText.setString(NPCname);
-
-        // Setting next line
-
-        nextLineNumber = lineNumber + 1;
+        std::string temp = "";
+        i++;
+        while (buffer[i] != ';')
+        {
+            temp += buffer[i];
+            i++;
+        }
+        nextLineNumber = labelMap[temp]; // next line is right above the label
+        // alter the next line adress
     }
+    if (buffer[0] == 'C')
+    {
+        isChoice = true;
+        std::string temp = "";
+        i += 2;
+
+        while (buffer[i] != ';')
+        {
+
+            while (buffer[i] != '-')
+            {
+                temp += buffer[i];
+                i++;
+            }
+            DialogueHandler::choiceMap.push_back(temp);
+            temp = "";
+            i += 2;
+            while (buffer[i] != '"')
+            {
+                temp += buffer[i];
+                i++;
+            }
+
+            dialogueLine += "     " + std::to_string(choiceMap.size()) + "-" + temp + '\n';
+            temp = "";
+            i += 2;
+        }
+    }
+    if (buffer[0] == 'L')
+    {
+        isChoice = false;
+
+        i += 2;
+
+        int textWidth = 0; // control for wraping
+
+        while (buffer[i] != '"')
+        {
+            dialogueLine += buffer[i];
+            i++;
+            textWidth++;
+            if (textWidth == 30)
+            {
+
+                dialogueLine += '\n';
+                textWidth = 0;
+            }
+
+            nextLineNumber = lineNumber + 1;
+        }
+    }
+    isParsed = true;
+
+    dialogueLineText.setString(dialogueLine);
+    dialogueNameText.setString(NPCname);
 }
