@@ -35,6 +35,8 @@ private:
     static inline bool isMainMenu = false;
     static inline bool isDialogue = false;
 
+    static inline bool isHouse = true;
+
     // private funcions
 
     // input

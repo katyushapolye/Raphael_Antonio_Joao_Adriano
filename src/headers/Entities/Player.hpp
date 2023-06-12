@@ -78,6 +78,7 @@ public:
     Direction getFacing();
 
     Direction getLooking();
+    
 };
 
 #endif

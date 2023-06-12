@@ -125,6 +125,11 @@ void Game::run()
             {
                 // Will only update player if dialogue is happening
                 player->update();
+
+                if ((player->getWorldPosition() == sf::Vector2i(4, 7) || player->getWorldPosition() == sf::Vector2i(5, 7)) && isHouse)
+                {
+                    loadLevel("City");
+                }
             }
 
             cameraUpdate();
@@ -198,10 +203,12 @@ void Game::loadLevel(std::string levelName)
 {
     std::string level = levelName;
 
-    if(level == "House"){
+    if (level == "House")
+    {
         loadHouse();
-    }  
-    else if(level == "Externo"){
+    }
+    else if (level == "City")
+    {
         loadCity();
     }
 }
@@ -210,8 +217,14 @@ void Game::loadCity(void)
 {
     Game::currentLevel = new City(); // CAREFULL POINTERS
 
-    levelHeight = 50;
-    levelWidth = 100;
+    levelHeight = 10;
+    levelWidth = 10;
+
+    if (isHouse)
+    {  
+        levelMap.clear();
+        isHouse = false;   
+    }
 
     for (int i = 0; i < levelHeight; i++)
     {
@@ -221,9 +234,6 @@ void Game::loadCity(void)
             levelMap[i].push_back(Tile(sf::Vector2<int>(48 * j, 48 * i), TILE_DICTIONARY.at("snow1"))); // TILE_DICTIONARY.at("wardrobe")));
         }
     }
-
-
-
 }
 
 void Game::loadHouse(void)
@@ -234,6 +244,12 @@ void Game::loadHouse(void)
 
     levelHeight = 8; // 8
     levelWidth = 10; // 11 for good house size
+
+    if (!isHouse)
+    {  
+        levelMap.clear();
+        isHouse = true;   
+    }
 
     for (int i = 0; i < levelHeight; i++)
     {
@@ -277,7 +293,6 @@ void Game::loadHouse(void)
     levelMap[5][9] = Tile(sf::Vector2<int>(48 * 9, 48 * 5), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("bedtop"));
 
     levelMap[5][3] = Tile(sf::Vector2<int>(48 * 3, 48 * 5), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"), TileDescriptor(), sf::Vector2f(0, 0));
-
 }
 
 sf::View &Game::getCamera()
