@@ -254,7 +254,7 @@ void DialogueHandler::parseLine()
             dialogueLine += buffer[i];
             i++;
             textWidth++;
-            if (textWidth == 30)
+            if (textWidth == 27)
             {
 
                 dialogueLine += '\n';

@@ -1,22 +1,18 @@
-L$NPC$"Hello, My Name is NPC, this is a very long dialogue line to test the text-wrapping functionality, So we should just keep writing more stupid shit.";
-L$NPC$"What is Yours?";
-L$NPC$"...";
-L$NPC$"Not much of a talker are ya?";
-L$NPC$"That's okay, take your pick here then!";
-C$NPC$|Choice_1-"Choice 1"|Choice_2-"Choice 2"|;
-#BackTrack;
-L$NPC$"You are back on the Track of Dialogue!";
+L$Alessandreia$"Ola, aqui está um quizz suspresa de variados topicos de computacao";
+L$Alessandreia$"Quem eh o considerado pai da computacao?";
+C$Alessandreia$|Q1C-"Alan Turing"|Q1E-"Michael Jackson"|;
+#J1;
 *;
 
 
 
-#Choice_1;
-L$NPC$"Hmmmm";
-J$NPC$"Okay, You've Chosen Choice 1"BackTrack;
+#Q1C;
+L$Alessandreia$"Correto";
+J$Alessandreia$"Okay, Proxima Pergunta"J1;
 
-#Choice_2;
-L$NPC$"Hmmmm";
-J$NPC$"Okay, You've Chosen Choice 2"BackTrack;
+#Q1E;
+L$Alessandreia$"Errado";
+J$Alessandreia$"Okay, Proxima Pergunta"J1;
 
 
 

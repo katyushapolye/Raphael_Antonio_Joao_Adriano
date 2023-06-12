@@ -54,7 +54,6 @@ Tile::Tile(sf::Vector2<int> position, TileDescriptor back, TileDescriptor middle
     frontLayer.setPosition(this->position.x, this->position.y);
 
     this->isWalkable = back.isWalkable && middle.isWalkable && front.isWalkable;
-    this->awakeTrigger = back.awakeTrigger;
 }
 
 sf::Sprite &Tile::getBackLayerVisual()

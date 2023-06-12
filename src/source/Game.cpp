@@ -32,7 +32,7 @@ Game::Game()
     // lightShader.setUniform("levelTexture2", sf::Shader::CurrentTexture);
 
     lightShader.setUniform("lightRadius", 100.f);
-    lightShader.setUniform("defaultLight", 1.0f);
+    lightShader.setUniform("defaultLight", 0.70f);
     // Debug
 
     run();
@@ -243,6 +243,8 @@ void Game::loadLevel(std::string levelName)
 
     levelMap[6][9] = Tile(sf::Vector2<int>(48 * 9, 48 * 6), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("bedbotton"));
     levelMap[5][9] = Tile(sf::Vector2<int>(48 * 9, 48 * 5), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("bedtop"));
+
+    levelMap[5][3] = Tile(sf::Vector2<int>(48 * 3, 48 * 5), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"), TileDescriptor(), sf::Vector2f(0, 0));
 }
 
 sf::View &Game::getCamera()

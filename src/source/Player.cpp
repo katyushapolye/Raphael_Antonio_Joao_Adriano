@@ -277,7 +277,12 @@ void Player::updateAnimation()
     int atlasY = 0;
     int atlasX = 0;
 
-    switch (this->facing)
+    if (isMoving)
+    {
+        this->looking = this->facing;
+    }
+
+    switch (this->looking)
     {
     case Player::Direction::North:
         atlasY = 8 * 48;
@@ -304,9 +309,6 @@ void Player::updateAnimation()
         lastAnimFrame = atlasX;
         animationClock.restart();
     }
-
-    if (!isMoving)
-        this->facing = this->looking;
 
     !isMoving ? atlasX = 48 : atlasX = atlasX * 48;
 
