@@ -130,6 +130,10 @@ void Game::run()
                 {
                     loadLevel("City");
                 }
+                else if ((player->getWorldPosition() == sf::Vector2i(0, 3)) && !isHouse)
+                {
+                    loadLevel("House");
+                }
             }
 
             cameraUpdate();
