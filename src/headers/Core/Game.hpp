@@ -4,6 +4,7 @@
 
 #include "Level.hpp"
 #include "../Levels/House.hpp"
+#include "../Levels/City.hpp"
 #include "TextureHandler.hpp"
 #include "../Entities/Player.hpp"
 
@@ -52,6 +53,10 @@ private:
     void run();
 
     void loadLevel(std::string levelName);
+
+    // aux methods
+    void loadHouse(void);
+    void loadCity(void);
 
     // void LerArquivo(std::string arquivo);
 

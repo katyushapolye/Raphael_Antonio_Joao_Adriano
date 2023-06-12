@@ -196,6 +196,38 @@ void Game::render()
 
 void Game::loadLevel(std::string levelName)
 {
+    std::string level = levelName;
+
+    if(level == "House"){
+        loadHouse();
+    }  
+    else if(level == "Externo"){
+        loadCity();
+    }
+}
+
+void Game::loadCity(void)
+{
+    Game::currentLevel = new City(); // CAREFULL POINTERS
+
+    levelHeight = 50;
+    levelWidth = 100;
+
+    for (int i = 0; i < levelHeight; i++)
+    {
+        levelMap.push_back(std::vector<Tile>());
+        for (int j = 0; j < levelWidth; j++)
+        {
+            levelMap[i].push_back(Tile(sf::Vector2<int>(48 * j, 48 * i), TILE_DICTIONARY.at("snow1"))); // TILE_DICTIONARY.at("wardrobe")));
+        }
+    }
+
+
+
+}
+
+void Game::loadHouse(void)
+{
     // will load each level along its behaviour script
 
     Game::currentLevel = new House(); // CAREFULL POINTERS
@@ -245,6 +277,7 @@ void Game::loadLevel(std::string levelName)
     levelMap[5][9] = Tile(sf::Vector2<int>(48 * 9, 48 * 5), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("bedtop"));
 
     levelMap[5][3] = Tile(sf::Vector2<int>(48 * 3, 48 * 5), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"), TileDescriptor(), sf::Vector2f(0, 0));
+
 }
 
 sf::View &Game::getCamera()
