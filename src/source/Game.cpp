@@ -130,7 +130,7 @@ void Game::run()
                 {
                     loadLevel("City");
                 }
-                else if ((player->getWorldPosition() == sf::Vector2i(0, 3)) && !isHouse)
+                else if ((player->getWorldPosition() == sf::Vector2i(4, 6)) && !isHouse)
                 {
                     loadLevel("House");
                 }
@@ -221,8 +221,8 @@ void Game::loadCity(void)
 {
     Game::currentLevel = new City(); // CAREFULL POINTERS
 
-    levelHeight = 10;
-    levelWidth = 10;
+    levelHeight = 25;
+    levelWidth = 25;
 
     if (isHouse)
     {  
@@ -235,9 +235,27 @@ void Game::loadCity(void)
         levelMap.push_back(std::vector<Tile>());
         for (int j = 0; j < levelWidth; j++)
         {
-            levelMap[i].push_back(Tile(sf::Vector2<int>(48 * j, 48 * i), TILE_DICTIONARY.at("snow1"))); // TILE_DICTIONARY.at("wardrobe")));
+            levelMap[i].push_back(Tile(sf::Vector2<int>(48 * j, 48 * i), TILE_DICTIONARY.at("snow1"))); 
         }
     }
+
+    // levelMap[4][3] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse1"));
+    // levelMap[5][3] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse2"));
+    // levelMap[6][3] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse3"));
+    // levelMap[4][4] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse4"));
+    // levelMap[4][5] = Tile(sf::Vector2<int>(5 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse5"));
+    // levelMap[5][4] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse6"));
+    // levelMap[5][5] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse7"));
+    // levelMap[6][4] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse8"));
+    // levelMap[6][5] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse9"));
+
+    // levelMap[8][8] = Tile(sf::Vector2<int>(8 * 48 ,8 * 48), TILE_DICTIONARY.at("bush1"));
+
+    
+
+    
+    
+     
 }
 
 void Game::loadHouse(void)

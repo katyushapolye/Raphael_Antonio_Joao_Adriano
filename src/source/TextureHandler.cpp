@@ -53,6 +53,21 @@ void TextureHandler::loadTexture(TextureAtlas atlas)
         textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Outside_A5.png");
         break;
 
+    case TextureAtlas::OB0:
+        TextureHandler::textures.insert({atlas, sf::Texture()});
+        textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Outside_B.png");
+        break;
+
+    case TextureAtlas::OC0:
+        TextureHandler::textures.insert({atlas, sf::Texture()});
+        textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Outside_C.png");
+        break;
+
+    case TextureAtlas::OD0:
+        TextureHandler::textures.insert({atlas, sf::Texture()});
+        textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Outside_D-Trees.png");
+        break;
+
         // CASES OF INSIDE PLACES
 
     case TextureAtlas::IA1:
