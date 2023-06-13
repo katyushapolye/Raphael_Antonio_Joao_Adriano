@@ -236,7 +236,12 @@ void DialogueHandler::parseLine()
                 i++;
             }
 
-            dialogueLine += "     " + std::to_string(choiceMap.size()) + "-" + temp + '\n';
+            if (temp.size() > 27)
+            {
+                temp.insert(temp.begin() + 25, '\n');
+            }
+
+            dialogueLine += std::to_string(choiceMap.size()) + "-" + temp + '\n';
             temp = "";
             i += 2;
         }

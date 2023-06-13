@@ -1,18 +1,66 @@
-L$Alessandreia$"Ola, aqui está um quizz suspresa de variados topicos de computacao";
+L$Alessandreia$"Ola, aqui esta um quizz suspresa de variados topicos de computacao";
 L$Alessandreia$"Quem eh o considerado pai da computacao?";
-C$Alessandreia$|Q1C-"Alan Turing"|Q1E-"Michael Jackson"|;
+C$Alessandreia$|Q1A-"Alan Turing"|Q1B-"Michael Jackson"|;
 #J1;
+L$Alessandreia$"O que é observacao Pessoal?";
+C$Alessandreia$|Q2A-"Um crime"|Q2B-"Uma forma de levantamento de requisitos"|;
+#J2;
+L$Alessandreia$"Eu to atrasado com meu projeto, devo chamar mais gente?";
+C$Alessandreia$|Q3A-"Nao, tem que ensinar o povo"|Q3B-"Sim, quanto mais gente mais rápido"|;
+#J3;
+L$Alessandreia$"O que eh o algoritmo de Djstrka ";
+C$Alessandreia$|Q4A-"Um algoritmo de caminho minimo em grafos"|Q4B-"Seila kkkkk"|;
+#J4;
+L$Alessandreia$"O que eh um computador?";
+C$Alessandreia$|Q5A-"Ue, uma negocio de ver video"|Q5B-"Uma maquina de computar"|;
+#J5;
 *;
 
 
 
-#Q1C;
+#Q1A;
 L$Alessandreia$"Correto";
 J$Alessandreia$"Okay, Proxima Pergunta"J1;
 
-#Q1E;
+#Q1B;
 L$Alessandreia$"Errado";
 J$Alessandreia$"Okay, Proxima Pergunta"J1;
+
+#Q2A;
+L$Alessandreia$"Errado";
+J$Alessandreia$"Okay, Proxima Pergunta"J2;
+
+#Q2B;
+L$Alessandreia$"Correto";
+J$Alessandreia$"Okay, Proxima Pergunta"J2;
+
+#Q3A;
+L$Alessandreia$"Correto";
+J$Alessandreia$"Okay, Proxima Pergunta"J3;
+
+#Q3B;
+L$Alessandreia$"Errado";
+J$Alessandreia$"Okay, Proxima Pergunta"J3;
+
+#Q4A;
+L$Alessandreia$"Correto";
+J$Alessandreia$"Okay, Proxima Pergunta"J4;
+
+#Q4B;
+L$Alessandreia$"Errado";
+J$Alessandreia$"Okay, Proxima Pergunta"J4;
+
+#Q5A;
+L$Alessandreia$"Correto";
+J$Alessandreia$"Okay, Proxima Pergunta"J5;
+
+#Q5B;
+L$Alessandreia$"Errado";
+J$Alessandreia$"Okay, Proxima Pergunta"J5;
+
+
+
+
 
 
 
