@@ -10,7 +10,7 @@ private:
     std::vector<sf::Sound*> sounds;
 public:
     AudioHandler(){
-        sf::Listener::setGlobalVolume(100.0f);
+        sf::Listener::setGlobalVolume(80.0f);
     }
     
     void loadMusic(const std::string& musicName, const std::string& fileName){
@@ -20,10 +20,9 @@ public:
         }
         else{
             //tratando erros
-            std::cout<<"Nao existe um arquivo com esse nome"<<std::endl;
             delete music;
             music=nullptr;
-            exit(-1);  
+            std::cerr << "Erro: Nao existe um arquivo com esse nome" << std::endl;
         }
 
         
@@ -38,8 +37,7 @@ public:
         }
         else{
             //tratando erro
-            std::cout<<"Musica não encontrada ou não adicionada"<<std::endl;
-            exit(-1);
+            std::cerr << "Erro: Musica não encontrada ou não adicionada" << std::endl;
         }
     }
 
@@ -64,23 +62,34 @@ public:
         }
         else{
             //tratando erros
-            std::cout<<"Nao existe um arquivo com esse nome"<<std::endl;
             delete buffer;
-            buffer=nullptr;
-            exit(-1);  
+            buffer=nullptr; 
+            std::cerr << "Erro: Nao existe um arquivo com esse nome" << std::endl;
         }
     }
+
 
     void playSound(const std::string& soundName){
         sf::SoundBuffer* buffer = soundBuffers[soundName];
-        if(buffer){
-            sf::Sound* sound= new sf::Sound(*buffer);
+        if (buffer){
+            sf::Sound* sound = new sf::Sound(*buffer);
             sound->play();
             sounds.push_back(sound);
+        }else{
+            // Tratando erro
+            std::cerr << "Erro: Som não encontrado ou não adicionado" << std::endl;
         }
 
-        sounds.erase(std::remove_if(sounds.begin(), sounds.end(),[](sf::Sound* sound){return sound->getStatus()== sf::Sound::Stopped;}),sounds.end());
+        sounds.erase(
+            std::remove_if(sounds.begin(), sounds.end(),
+                [](sf::Sound* sound) {
+                    return sound->getStatus() == sf::Sound::Stopped;
+                }
+            ),
+            sounds.end()
+        );
     }
+
 
     void stopAllSounds(){
         for(sf::Sound* sound: sounds){
@@ -89,6 +98,78 @@ public:
         }
         sounds.clear();
     }
+
+    void stopSound(sf::Sound* sound){
+        //talvez n seja utilizado
+        auto soundIt = std::find(sounds.begin(), sounds.end(), sound);
+        if (soundIt != sounds.end()){
+            (*soundIt)->stop();
+        }else{
+            // Tratando erro
+            std::cerr << "Erro: Som não encontrado" << std::endl;
+        }
+    }
+
+
+
+    void pauseMusic(const std::string& musicName){
+        std::map<std::string, sf::Music*>::iterator musicIt = musicList.find(musicName);
+        if (musicIt != musicList.end()){
+            sf::Music* music = musicIt->second;
+            music->pause();
+        }else{
+            
+            std::cerr << "Erro: Música não encontrada ou não adicionada" << std::endl;
+        }
+    }
+
+    void pauseAllSounds(){
+        for (sf::Sound* sound : sounds){
+            sound->pause();
+        }
+    }
+    void pauseAll(){
+        for (auto& pair : musicList){
+            sf::Music* music = pair.second;
+            if (music->getStatus() == sf::SoundSource::Playing){
+                music->pause();
+            }
+        }
+
+        for (sf::Sound* sound : sounds){
+            if (sound->getStatus() == sf::SoundSource::Playing){
+                sound->pause();
+            }
+        }
+    }
+
+    void resumeAll(){
+        for (auto& pair : musicList){
+            sf::Music* music = pair.second;
+            if (music->getStatus() == sf::SoundSource::Paused){
+                music->play();
+            }
+        }
+
+        for (sf::Sound* sound : sounds){
+            if (sound->getStatus() == sf::SoundSource::Paused){
+                sound->play();
+            }
+        }
+    }
+
+    void increaseVolume(float amount){
+        float currentVolume = sf::Listener::getGlobalVolume();
+        sf::Listener::setGlobalVolume(currentVolume + amount);
+    }
+
+    void decreaseVolume(float amount){
+        float currentVolume = sf::Listener::getGlobalVolume();
+        sf::Listener::setGlobalVolume(currentVolume - amount);
+    }
+    //exemplo -> decreaseVolume(10.0f)
+
 };
+
 
 
