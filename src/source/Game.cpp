@@ -16,6 +16,7 @@ Game::Game()
 
     lightShader.setUniform("levelTexture", sf::Shader::CurrentTexture);
 
+    blurShader.loadFromFile("Resources/shaders/blur.frag", sf::Shader::Fragment);  
     // lightShader.setUniform("levelTexture2", sf::Shader::CurrentTexture);
 
     lightShader.setUniform("lightRadius", 100.f);
@@ -35,7 +36,17 @@ void Game::handleInput()
         {
             window.close();
         }
-
+        if(e.type==sf::Event::KeyPressed){
+            if(e.key.code == sf::Keyboard::Equal){
+                audioHandler.increaseVolume(5.0f);
+            }
+            if(e.key.code == sf::Keyboard::Dash){
+                audioHandler.decreaseVolume(5.0f);
+            }
+            if(e.key.code == sf::Keyboard::Escape){
+                gamePaused=!gamePaused;
+            }   
+        }
         if (e.type == sf::Event::KeyPressed || sf::Event::KeyReleased)
         {
             if ((e.key.code == sf::Keyboard::Up ||
@@ -47,7 +58,10 @@ void Game::handleInput()
             {
                 player->receiveInput(e);
             }
+               
         }
+        
+            
     }
 
     return;
@@ -100,18 +114,26 @@ void Game::run()
             // MAIN GAME LOOP
 
             handleInput();
+            if(gamePaused){
+                audioHandler.pauseAll();
+                render();
+                //pauseScreen.draw(window);
+            }
+            else{
+        
+                // logic, the ifs depend on what logic (colision
+                //  can be ignored if is a pause for example)
 
-            // logic, the ifs depend on what logic (colision
-            //  can be ignored if is a pause for example)
+                // getting the final state of the grid
+                audioHandler.resumeAll();
+                player->update();
 
-            // getting the final state of the grid
-            player->update();
+                cameraUpdate();
 
-            cameraUpdate();
+                render();
 
-            render();
-
-            gameClock.restart();
+                gameClock.restart();
+            }
         }
     }
 }
@@ -119,6 +141,7 @@ void Game::run()
 void Game::render()
 {
     window.clear();
+
 
     window.setView(camera);
     // std::cout << levelMap.empty() << std::endl;
@@ -132,6 +155,7 @@ void Game::render()
 
             lightShader.setUniform("spritePosition", levelMap[i][j].getBackLayerVisual().getPosition());
             window.draw(levelMap[i][j].getBackLayerVisual(), &lightShader);
+            
         }
     }
 
@@ -162,7 +186,11 @@ void Game::render()
 
     // debug monitor;
     renderDebugMonitor();
-
+    //pause
+    if(gamePaused){
+        pauseScreen.draw(window);
+        
+    }
     window.display();
 }
 //

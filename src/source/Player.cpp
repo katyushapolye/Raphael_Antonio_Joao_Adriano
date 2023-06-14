@@ -90,6 +90,7 @@ void Player::receiveInput(sf::Event e)
         {
             interactionPending = true;
         }
+        
     }
     if (e.type == sf::Event::KeyReleased)
     {

@@ -157,15 +157,23 @@ public:
             }
         }
     }
-
-    void increaseVolume(float amount){
+    //esse valor volumeFixo pode ser altererado na função de input no Game.cpp
+    void increaseVolume(float volumeFixo){
         float currentVolume = sf::Listener::getGlobalVolume();
-        sf::Listener::setGlobalVolume(currentVolume + amount);
+        float newVolume = currentVolume + volumeFixo;
+        if(newVolume>100.0f){
+            newVolume=100.0f;
+        }
+        sf::Listener::setGlobalVolume(newVolume);
     }
 
-    void decreaseVolume(float amount){
+    void decreaseVolume(float volumeFixo){
         float currentVolume = sf::Listener::getGlobalVolume();
-        sf::Listener::setGlobalVolume(currentVolume - amount);
+        float newVolume = currentVolume - volumeFixo;
+        if(newVolume<0.0f){
+            newVolume=0.0f;
+        }
+        sf::Listener::setGlobalVolume(newVolume);
     }
     //exemplo -> decreaseVolume(10.0f)
 

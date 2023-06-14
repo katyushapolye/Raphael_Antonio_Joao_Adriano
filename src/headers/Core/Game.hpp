@@ -7,6 +7,7 @@
 #include "TextureHandler.hpp"
 #include "../Entities/Player.hpp"
 #include "../Audio/AudioHandler.hpp"
+#include "../UI/PauseScreen.hpp"
 // foward  declaration
 class Player;
 
@@ -28,9 +29,12 @@ private:
     static inline int levelWidth = 0;
     Player *player;
     AudioHandler audioHandler;
+    PauseScreen pauseScreen;
+    
     // enemies array
 
     // state flags
+    bool gamePaused= false;
     bool isPaused = false;
     bool isMainMenu = true;
     bool isDialogue = false;
@@ -59,6 +63,7 @@ private:
     void renderDebugMonitor();
     sf::Shader darkShader;
     sf::Shader lightShader;
+    sf::Shader blurShader;
 
 public:
     Game();
