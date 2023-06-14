@@ -130,7 +130,7 @@ void Game::run()
                 {
                     loadLevel("City");
                 }
-                else if ((player->getWorldPosition() == sf::Vector2i(4, 6)) && !isHouse)
+                else if ((player->getWorldPosition() == sf::Vector2i(5, 6)) && !isHouse)
                 {
                     loadLevel("House");
                 }
@@ -239,23 +239,31 @@ void Game::loadCity(void)
         }
     }
 
-    // levelMap[4][3] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse1"));
-    // levelMap[5][3] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse2"));
-    // levelMap[6][3] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse3"));
-    // levelMap[4][4] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse4"));
-    // levelMap[4][5] = Tile(sf::Vector2<int>(5 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse5"));
-    // levelMap[5][4] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse6"));
-    // levelMap[5][5] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse7"));
-    // levelMap[6][4] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse8"));
-    // levelMap[6][5] = Tile(sf::Vector2<int>(6 * 8 ,4 * 48), TILE_DICTIONARY.at("tempHouse9"));
+    for (int i = 0; i < levelWidth - 2; i++)
+    {
 
-    // levelMap[8][8] = Tile(sf::Vector2<int>(8 * 48 ,8 * 48), TILE_DICTIONARY.at("bush1"));
+    }
 
-    
+    levelMap[3][4] = Tile(sf::Vector2<int>(4 * 48 ,3 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse1"));
+    levelMap[3][5] = Tile(sf::Vector2<int>(5 * 48 ,3 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse2"));
+    levelMap[3][6] = Tile(sf::Vector2<int>(6 * 48 ,3 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse3"));
+    levelMap[4][4] = Tile(sf::Vector2<int>(4 * 48 ,4 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse4"));
+    levelMap[4][5] = Tile(sf::Vector2<int>(5 * 48 ,4 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse5"));
+    levelMap[4][6] = Tile(sf::Vector2<int>(6 * 48 ,4 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse6"));
+    levelMap[5][4] = Tile(sf::Vector2<int>(4 * 48 ,5 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse7"));
+    levelMap[5][5] = Tile(sf::Vector2<int>(5 * 48 ,5 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse8"));
+    levelMap[5][6] = Tile(sf::Vector2<int>(6 * 48 ,5 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse9"));
 
-    
-    
-     
+    levelMap[8][8] = Tile(sf::Vector2<int>(8 * 48 ,8 * 48),TILE_DICTIONARY.at("snow1") ,TILE_DICTIONARY.at("bushsnow1")); 
+    levelMap[13][9] = Tile(sf::Vector2<int>(9 * 48 ,13 * 48),TILE_DICTIONARY.at("snow1") ,TILE_DICTIONARY.at("bushsnow1")); 
+    levelMap[18][16] = Tile(sf::Vector2<int>(16 * 48 ,18 * 48),TILE_DICTIONARY.at("snow1") ,TILE_DICTIONARY.at("bushsnow3"));
+    levelMap[13][12] = Tile(sf::Vector2<int>(12 * 48 ,13 * 48),TILE_DICTIONARY.at("snow1") ,TILE_DICTIONARY.at("bushsnow3")); 
+    levelMap[19][11] = Tile(sf::Vector2<int>(11 * 48 ,19 * 48),TILE_DICTIONARY.at("snow1") ,TILE_DICTIONARY.at("bushsnow2")); 
+    levelMap[10][2] = Tile(sf::Vector2<int>(2 * 48 ,10 * 48),TILE_DICTIONARY.at("snow1") ,TILE_DICTIONARY.at("bushsnow1")); 
+    levelMap[13][16] = Tile(sf::Vector2<int>(16 * 48 ,13 * 48),TILE_DICTIONARY.at("snow1") ,TILE_DICTIONARY.at("bushsnow2")); 
+    levelMap[14][15] = Tile(sf::Vector2<int>(15 * 48 ,14 * 48),TILE_DICTIONARY.at("snow1") ,TILE_DICTIONARY.at("bushsnow1")); 
+    levelMap[1][4] = Tile(sf::Vector2<int>(4 * 48 ,1 * 48),TILE_DICTIONARY.at("snow1") ,TILE_DICTIONARY.at("bushsnow2")); 
+
 }
 
 void Game::loadHouse(void)

@@ -59,6 +59,12 @@ static const inline std::unordered_map<std::string, TileDescriptor> TILE_DICTION
     {"snow1", TileDescriptor(TextureHandler::TextureAtlas::OA2, sf::IntRect(0, 9 * 48, 48, 48), true, false)},
     {"snowpathsand1", TileDescriptor(TextureHandler::TextureAtlas::OA2, sf::IntRect(2 * 48, 9 * 48, 48, 48), true, false)},
     {"snowpathsand2", TileDescriptor(TextureHandler::TextureAtlas::OA2, sf::IntRect(3 * 48, 9 * 48, 48, 48), true, false)},
+    {"bushsnow1", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(10 * 48, 11 * 48, 48, 48), true, false)},
+    {"bushsnow2", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(14 * 48, 12 * 48, 48, 48), true, false)},
+    {"bushsnow3", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(9 * 48, 11 * 48, 48, 48), true, false)},
+
+    {"treesnow1", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(13 * 48, 11 * 48, 48, 48), false, false)},
+    {"treesnow2", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(13* 48, 12 * 48, 48, 48), false, false)},
 
     {"towerwallbright1", TileDescriptor(TextureHandler::TextureAtlas::OA4, sf::IntRect(0, 0, 48, 48), false, false)},
     {"towerwallbright2", TileDescriptor(TextureHandler::TextureAtlas::OA4, sf::IntRect(2 * 48, 0, 48, 48), false, false)},
@@ -68,10 +74,10 @@ static const inline std::unordered_map<std::string, TileDescriptor> TILE_DICTION
     {"tempHouse2", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(6 * 48, 3 * 48, 48, 48), false, false)},
     {"tempHouse3", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(7 * 48, 3 * 48, 48, 48), false, false)},
     {"tempHouse4", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(5 * 48, 4 * 48, 48, 48), false, false)},
-    {"tempHouse5", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(5 * 48, 5 * 48, 48, 48), false, false)},
-    {"tempHouse6", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(6 * 48, 4 * 48, 48, 48), false, false)},
-    {"tempHouse7", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(6 * 48, 5 * 48, 48, 48), false, false)},
-    {"tempHouse8", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(7 * 48, 4 * 48, 48, 48), false, false)},
+    {"tempHouse5", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(6 * 48, 4 * 48, 48, 48), false, false)},
+    {"tempHouse6", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(7 * 48, 4 * 48, 48, 48), false, false)},
+    {"tempHouse7", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(5 * 48, 5 * 48, 48, 48), false, false)},
+    {"tempHouse8", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(6 * 48, 5 * 48, 48, 48), false, false)},
     {"tempHouse9", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(7 * 48, 5 * 48, 48, 48), false, false)},
     
 
