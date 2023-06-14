@@ -10,7 +10,7 @@ private:
     std::vector<sf::Sound*> sounds;
 public:
     AudioHandler(){
-        sf::Listener::setGlobalVolume(80.0f);
+        sf::Listener::setGlobalVolume(40.0f);
     }
     
     void loadMusic(const std::string& musicName, const std::string& fileName){

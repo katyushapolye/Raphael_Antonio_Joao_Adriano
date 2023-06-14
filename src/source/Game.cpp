@@ -45,20 +45,25 @@ void Game::handleInput()
             }
             if(e.key.code == sf::Keyboard::Escape){
                 gamePaused=!gamePaused;
-            }   
-        }
-        if (e.type == sf::Event::KeyPressed || sf::Event::KeyReleased)
-        {
-            if ((e.key.code == sf::Keyboard::Up ||
-                 e.key.code == sf::Keyboard::Down ||
-                 e.key.code == sf::Keyboard::Right ||
-                 e.key.code == sf::Keyboard::Left ||
-                 e.key.code == sf::Keyboard::Z) &&
-                !(isDialogue || isPaused))
-            {
-                player->receiveInput(e);
             }
-               
+              
+        }
+        if(!gamePaused){
+            if (e.type == sf::Event::KeyPressed || sf::Event::KeyReleased)
+            {
+                if ((e.key.code == sf::Keyboard::Up ||
+                     e.key.code == sf::Keyboard::Down ||
+                     e.key.code == sf::Keyboard::Right ||
+                     e.key.code == sf::Keyboard::Left ||
+                     e.key.code == sf::Keyboard::Z) &&
+                    !(isDialogue || isPaused))
+                {
+                    player->receiveInput(e);
+                }
+
+            }
+        }else{
+            pauseScreen.pauseHandleInput(e);
         }
         
             
@@ -112,12 +117,10 @@ void Game::run()
         if (gameClock.getElapsedTime().asSeconds() >= 0.00327777)
         {
             // MAIN GAME LOOP
-
             handleInput();
             if(gamePaused){
                 audioHandler.pauseAll();
                 render();
-                //pauseScreen.draw(window);
             }
             else{
         
@@ -188,6 +191,14 @@ void Game::render()
     renderDebugMonitor();
     //pause
     if(gamePaused){
+
+        sf::RenderTexture dimText;
+        dimText.create(window.getSize().x, window.getSize().y);
+        dimText.clear(sf::Color(0,0,0,128));
+        dimText.display();
+        sf::Sprite dimSprite(dimText.getTexture());
+        dimSprite.setPosition(-23,-23);
+        window.draw(dimSprite);
         pauseScreen.draw(window);
         
     }
