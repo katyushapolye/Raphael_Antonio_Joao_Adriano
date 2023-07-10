@@ -63,6 +63,10 @@ static const inline std::unordered_map<std::string, TileDescriptor> TILE_DICTION
     {"bushsnow2", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(14 * 48, 12 * 48, 48, 48), true, false)},
     {"bushsnow3", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(9 * 48, 11 * 48, 48, 48), true, false)},
 
+    {"rocks1", TileDescriptor(TextureHandler::TextureAtlas::DA4, sf::IntRect(2 * 48, 0, 48, 48), true, false)},
+
+    {"stairs", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(48, 48, 48, 48), true, false)},
+
     {"treesnow1", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(13 * 48, 11 * 48, 48, 48), false, false)},
     {"treesnow2", TileDescriptor(TextureHandler::TextureAtlas::OB0, sf::IntRect(13* 48, 12 * 48, 48, 48), false, false)},
 

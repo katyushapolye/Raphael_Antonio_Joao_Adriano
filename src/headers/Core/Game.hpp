@@ -36,6 +36,7 @@ private:
     static inline bool isDialogue = false;
 
     static inline bool isHouse = true;
+    static inline bool isCity = false;
 
     // private funcions
 
@@ -59,6 +60,7 @@ private:
     // aux methods
     void loadHouse(void);
     void loadCity(void);
+    void loadForest(void);
 
     // void LerArquivo(std::string arquivo);
 

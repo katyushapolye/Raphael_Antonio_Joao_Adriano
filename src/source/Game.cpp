@@ -130,9 +130,13 @@ void Game::run()
                 {
                     loadLevel("City");
                 }
-                else if ((player->getWorldPosition() == sf::Vector2i(5, 6)) && !isHouse)
+                else if ((player->getWorldPosition() == sf::Vector2i(5, 6)) && !isHouse && isCity)
                 {
                     loadLevel("House");
+                }
+                else if ((player->getWorldPosition() == sf::Vector2i(0, 0)) && !isHouse && isCity)
+                {
+                    loadLevel("Forest");
                 }
             }
 
@@ -215,6 +219,9 @@ void Game::loadLevel(std::string levelName)
     {
         loadCity();
     }
+    else if(level == "Forest"){
+        loadForest();
+    }
 }
 
 void Game::loadCity(void)
@@ -228,6 +235,7 @@ void Game::loadCity(void)
     {  
         levelMap.clear();
         isHouse = false;   
+        isCity = true;
     }
 
     for (int i = 0; i < levelHeight; i++)
@@ -243,6 +251,7 @@ void Game::loadCity(void)
     {
 
     }
+    levelMap[0][0] = Tile(sf::Vector2<int>(0 ,0),TILE_DICTIONARY.at("stairs"));
 
     levelMap[3][4] = Tile(sf::Vector2<int>(4 * 48 ,3 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse1"));
     levelMap[3][5] = Tile(sf::Vector2<int>(5 * 48 ,3 * 48),TILE_DICTIONARY.at("snow1") , TILE_DICTIONARY.at("tempHouse2"));
@@ -279,6 +288,7 @@ void Game::loadHouse(void)
     {  
         levelMap.clear();
         isHouse = true;   
+        isCity = false;
     }
 
     for (int i = 0; i < levelHeight; i++)
@@ -323,6 +333,54 @@ void Game::loadHouse(void)
     levelMap[5][9] = Tile(sf::Vector2<int>(48 * 9, 48 * 5), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("bedtop"));
 
     levelMap[5][3] = Tile(sf::Vector2<int>(48 * 3, 48 * 5), TILE_DICTIONARY.at("wood1"), TILE_DICTIONARY.at("wardrobe"), TileDescriptor(), sf::Vector2f(0, 0));
+}
+
+void Game::loadForest(void){
+Game::currentLevel = new City(); // CAREFULL POINTERS
+
+    levelHeight = 25;
+    levelWidth = 25;
+
+    if (isCity)
+    {  
+        levelMap.clear();
+        isHouse = false;
+        isCity = false;   
+    }
+
+    for (int i = 0; i < levelHeight; i++)
+    {
+        levelMap.push_back(std::vector<Tile>());
+        for (int j = 0; j < levelWidth; j++)
+        {
+            levelMap[i].push_back(Tile(sf::Vector2<int>(48 * j, 48 * i), TILE_DICTIONARY.at("rocks1"))); 
+        }
+    }
+
+    for (int i = 0; i < levelWidth - 2; i++)
+    {
+
+    }
+
+    // levelMap[3][4] = Tile(sf::Vector2<int>(4 * 48 ,3 * 48),TILE_DICTIONARY.at("grass1") , TILE_DICTIONARY.at("tempHouse1"));
+    // levelMap[3][5] = Tile(sf::Vector2<int>(5 * 48 ,3 * 48),TILE_DICTIONARY.at("grass1") , TILE_DICTIONARY.at("tempHouse2"));
+    // levelMap[3][6] = Tile(sf::Vector2<int>(6 * 48 ,3 * 48),TILE_DICTIONARY.at("grass1") , TILE_DICTIONARY.at("tempHouse3"));
+    // levelMap[4][4] = Tile(sf::Vector2<int>(4 * 48 ,4 * 48),TILE_DICTIONARY.at("grass1") , TILE_DICTIONARY.at("tempHouse4"));
+    // levelMap[4][5] = Tile(sf::Vector2<int>(5 * 48 ,4 * 48),TILE_DICTIONARY.at("grass1") , TILE_DICTIONARY.at("tempHouse5"));
+    // levelMap[4][6] = Tile(sf::Vector2<int>(6 * 48 ,4 * 48),TILE_DICTIONARY.at("grass1") , TILE_DICTIONARY.at("tempHouse6"));
+    // levelMap[5][4] = Tile(sf::Vector2<int>(4 * 48 ,5 * 48),TILE_DICTIONARY.at("grass1") , TILE_DICTIONARY.at("tempHouse7"));
+    // levelMap[5][5] = Tile(sf::Vector2<int>(5 * 48 ,5 * 48),TILE_DICTIONARY.at("grass1") , TILE_DICTIONARY.at("tempHouse8"));
+    // levelMap[5][6] = Tile(sf::Vector2<int>(6 * 48 ,5 * 48),TILE_DICTIONARY.at("grass1") , TILE_DICTIONARY.at("tempHouse9"));
+
+    // levelMap[8][8] = Tile(sf::Vector2<int>(8 * 48 ,8 * 48),TILE_DICTIONARY.at("grass1") ,TILE_DICTIONARY.at("bush1")); 
+    // levelMap[13][9] = Tile(sf::Vector2<int>(9 * 48 ,13 * 48),TILE_DICTIONARY.at("grass1") ,TILE_DICTIONARY.at("bush1")); 
+    // levelMap[18][16] = Tile(sf::Vector2<int>(16 * 48 ,18 * 48),TILE_DICTIONARY.at("grass1") ,TILE_DICTIONARY.at("bush1"));
+    // levelMap[13][12] = Tile(sf::Vector2<int>(12 * 48 ,13 * 48),TILE_DICTIONARY.at("grass1") ,TILE_DICTIONARY.at("bush1")); 
+    // levelMap[19][11] = Tile(sf::Vector2<int>(11 * 48 ,19 * 48),TILE_DICTIONARY.at("grass1") ,TILE_DICTIONARY.at("bush1")); 
+    // levelMap[10][2] = Tile(sf::Vector2<int>(2 * 48 ,10 * 48),TILE_DICTIONARY.at("grass1") ,TILE_DICTIONARY.at("bush1")); 
+    // levelMap[13][16] = Tile(sf::Vector2<int>(16 * 48 ,13 * 48),TILE_DICTIONARY.at("grass1") ,TILE_DICTIONARY.at("bush1")); 
+    // levelMap[14][15] = Tile(sf::Vector2<int>(15 * 48 ,14 * 48),TILE_DICTIONARY.at("grass1") ,TILE_DICTIONARY.at("bush1")); 
+    // levelMap[1][4] = Tile(sf::Vector2<int>(4 * 48 ,1 * 48),TILE_DICTIONARY.at("grass1") ,TILE_DICTIONARY.at("bush1"));
 }
 
 sf::View &Game::getCamera()
