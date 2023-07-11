@@ -1,11 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 #include <SFML/Graphics.hpp>
-
+#include "../UI/PauseScreen.hpp"
 #include "Level.hpp"
 #include "../Levels/House.hpp"
 #include "../Levels/City.hpp"
 #include "TextureHandler.hpp"
+#include "../Audio/AudioHandler.hpp"
 #include "../Entities/Player.hpp"
 
 // foward  declaration
@@ -28,10 +29,12 @@ private:
     static inline int levelWidth = 0;
 
     Player *player;
+    AudioHandler audioHandler;
+    PauseScreen pauseScreen;
     // enemies array
 
     // state flags
-    static inline bool isPaused = false;
+    bool gamePaused= false;
     static inline bool isMainMenu = false;
     static inline bool isDialogue = false;
 
@@ -54,6 +57,8 @@ private:
     // general
 
     void run();
+
+    
 
     void loadLevel(std::string levelName);
 

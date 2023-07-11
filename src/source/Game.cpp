@@ -22,14 +22,14 @@ Game::Game()
     loadLevel("House");
     isDialogue = false;
     isMainMenu = false;
-    isPaused = false;
+    gamePaused = false;
 
     defaultFont.loadFromFile("Resources/fonts/cinecaption226.ttf");
 
     lightShader.loadFromFile("Resources/shaders/dynamicLight.glsl", sf::Shader::Fragment);
 
     lightShader.setUniform("levelTexture", sf::Shader::CurrentTexture);
-
+    audioHandler.loadMusic("TownTheme","Resources/sounds/Town_Theme.wav");
     // lightShader.setUniform("levelTexture2", sf::Shader::CurrentTexture);
 
     lightShader.setUniform("lightRadius", 100.f);
@@ -48,22 +48,38 @@ void Game::handleInput()
         {
             window.close();
         }
-
-        if ((e.type == sf::Event::KeyPressed || sf::Event::KeyReleased))
-        {
-            if ((e.key.code == sf::Keyboard::Up ||
-                 e.key.code == sf::Keyboard::Down ||
-                 e.key.code == sf::Keyboard::Right ||
-                 e.key.code == sf::Keyboard::Left ||
-                 e.key.code == sf::Keyboard::Z) &&
-                !(isDialogue || isPaused))
-            {
-                player->receiveInput(e);
+        if(e.type==sf::Event::KeyPressed){
+            if(e.key.code == sf::Keyboard::Equal){
+                audioHandler.increaseVolume(5.0f);
             }
-            else
-            {
+            if(e.key.code == sf::Keyboard::Dash){
+                audioHandler.decreaseVolume(5.0f);
+            }
+            if(e.key.code == sf::Keyboard::Escape){
+                pauseScreen.setOpZero();
+                pauseScreen.setPauseFlag();
+                gamePaused=!gamePaused;
+            }   
+        }
+        if(!gamePaused){
+            if ((e.type == sf::Event::KeyPressed || sf::Event::KeyReleased)){
+                if ((e.key.code == sf::Keyboard::Up ||
+                     e.key.code == sf::Keyboard::Down ||
+                     e.key.code == sf::Keyboard::Right ||
+                     e.key.code == sf::Keyboard::Left ||
+                     e.key.code == sf::Keyboard::Z) &&
+                    !(isDialogue || gamePaused)){
+                        player->receiveInput(e);
+            }
+            else{
                 DialogueHandler::receiveInput(e);
             }
+            }
+    
+        }
+        else{
+            
+            pauseScreen.pauseHandleInput(e);
         }
     }
 
@@ -109,7 +125,7 @@ void Game::cameraUpdate()
 void Game::run()
 {
     player = new Player();
-
+    audioHandler.playMusic("TownTheme", true);
     while ((window.isOpen()))
     {
         if (gameClock.getElapsedTime().asSeconds() >= 0.00327777)
@@ -117,6 +133,13 @@ void Game::run()
             // MAIN GAME LOOP
 
             handleInput();
+            if(gamePaused){
+                audioHandler.pauseAll();
+                render();
+            }
+            if(gamePaused==false){
+                    audioHandler.resumeAll();
+                }
 
             // logic, the ifs depend on what logic (colision
             //  can be ignored if is a pause for example)
@@ -124,9 +147,9 @@ void Game::run()
             // getting the final state of the grid
             if (!Game::isDialogue)
             {
+                
                 // Will only update player if dialogue is happening
                 player->update();
-
                 if ((player->getWorldPosition() == sf::Vector2i(4, 7) || player->getWorldPosition() == sf::Vector2i(5, 7)) && isHouse)
                 {
                     loadLevel("City");
@@ -203,7 +226,25 @@ void Game::render()
 
     // debug monitor;
     renderDebugMonitor();
+    if(gamePaused){
 
+        sf::RenderTexture dimText;
+        dimText.create(camera.getCenter().x+400, camera.getCenter().y+400);
+        dimText.clear(sf::Color(0,0,0,128));
+        dimText.display();
+        sf::Sprite dimSprite(dimText.getTexture());
+        dimSprite.setPosition(-23,-23);
+        window.draw(dimSprite);
+        int x=camera.getCenter().x;
+        int y=camera.getCenter().y;
+        pauseScreen.draw(window, x, y);
+    
+        if(pauseScreen.getPauseFlag()==false){
+            gamePaused=!gamePaused;
+            render();
+        }
+        
+    }
     window.display();
 }
 //
