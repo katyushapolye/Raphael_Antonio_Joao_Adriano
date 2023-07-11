@@ -3,9 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 #include <utility>
+#include <iostream>
 #include <unordered_map>
 
-#define TEXTURE_COUNT 28
+#define TEXTURE_COUNT 31
 class TextureHandler
 {
 
@@ -25,6 +26,9 @@ public:
         OA3,
         OA4,
         OA5,
+        OB0,
+        OC0,
+        OD0,
         IB0,
         IC0,
         ID0,

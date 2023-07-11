@@ -42,10 +42,10 @@ void DialogueHandler::startDialogue(std::string dialogueName)
             DialogueHandler::lineNumber++;
         }
 
-        std::cout << "Lines Read" << std::endl;
+        // std::cout << "Lines Read" << std::endl;
         for (int i = 0; i < lines.size(); i++)
         {
-            std::cout << i << "-" << lines[i] << std::endl;
+            // std::cout << i << "-" << lines[i] << std::endl;
         }
 
         // starting UI
@@ -69,7 +69,7 @@ void DialogueHandler::startDialogue(std::string dialogueName)
 
     for (auto label = labelMap.begin(); label != labelMap.end(); label++)
     {
-        std::cout << label->first << ": " << label->second << std::endl;
+        // std::cout << label->first << ": " << label->second << std::endl;
     }
 }
 

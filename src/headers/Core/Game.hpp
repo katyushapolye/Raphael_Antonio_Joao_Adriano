@@ -4,6 +4,7 @@
 
 #include "Level.hpp"
 #include "../Levels/House.hpp"
+#include "../Levels/City.hpp"
 #include "TextureHandler.hpp"
 #include "../Entities/Player.hpp"
 
@@ -34,6 +35,9 @@ private:
     static inline bool isMainMenu = false;
     static inline bool isDialogue = false;
 
+    static inline bool isHouse = true;
+    static inline bool isCity = false;
+
     // private funcions
 
     // input
@@ -52,6 +56,10 @@ private:
     void run();
 
     void loadLevel(std::string levelName);
+
+    void loadHouse();
+    void loadCity();
+    void loadForest();
 
     // void LerArquivo(std::string arquivo);
 

@@ -53,6 +53,21 @@ void TextureHandler::loadTexture(TextureAtlas atlas)
         textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Outside_A5.png");
         break;
 
+    case TextureAtlas::OB0:
+        TextureHandler::textures.insert({atlas, sf::Texture()});
+        textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Outside_B.png");
+        break;
+
+    case TextureAtlas::OC0:
+        TextureHandler::textures.insert({atlas, sf::Texture()});
+        textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Outside_C.png");
+        break;
+
+    case TextureAtlas::OD0:
+        TextureHandler::textures.insert({atlas, sf::Texture()});
+        textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Outside_D-Trees.png");
+        break;
+
         // CASES OF INSIDE PLACES
 
     case TextureAtlas::IA1:
@@ -87,10 +102,10 @@ void TextureHandler::loadTexture(TextureAtlas atlas)
         textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Inside_C.png");
         break;
 
-    // case TextureAtlas::ID0:
-    //     TextureHandler::textures.insert({atlas, sf::Texture()});
-    //     textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Inside_D.png");
-    //     break;
+        // case TextureAtlas::ID0:
+        //     TextureHandler::textures.insert({atlas, sf::Texture()});
+        //     textures[atlas].loadFromFile("Resources/tilesets/PixelFantasy_Inside_D.png");
+        //     break;
 
         // CASES OF CHARACTERS
 
@@ -154,8 +169,10 @@ void TextureHandler::loadTexture(TextureAtlas atlas)
     case TextureAtlas::WINDOW:
         TextureHandler::textures.insert({atlas, sf::Texture()});
         textures[atlas].loadFromFile("Resources/system/Window.png");
+        break;
 
     default:
+        std::cout << "The Specified Texture Failed to Load: " << atlas << std::endl;
         break;
     }
 }
